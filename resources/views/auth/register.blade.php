@@ -38,7 +38,9 @@
         >
         <span class="border-b w-1/5 lg:w-1/4"></span>
     </div>
-    <form>
+    <form method="POST" action="{{ route('register') }}">
+        @csrf
+        
         <div class="mt-4">
             <label class="block text-gray-700 text-sm font-bold mb-2"
             >Prenom</label
