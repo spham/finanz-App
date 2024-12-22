@@ -4,7 +4,7 @@
 
     <p class="text-xl text-gray-600 text-center">Bon retour!</p>
     <a
-        href="#"
+        href="{{ route('auth.google.redirect') }}"
         class="flex items-center justify-center mt-4 text-white rounded-lg shadow-md hover:bg-gray-100"
     >
         <div class="px-4 py-3">

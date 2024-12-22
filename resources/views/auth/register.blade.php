@@ -3,7 +3,7 @@
 @section('auth-form')
     <p class="text-xl text-gray-600 text-center">Benvenu!</p>
     <a
-        href="#"
+        href="{{ route('auth.google.redirect') }}"
         class="flex items-center justify-center mt-4 text-white rounded-lg shadow-md hover:bg-gray-100"
     >
         <div class="px-4 py-3">
@@ -40,7 +40,7 @@
     </div>
     <form method="POST" action="{{ route('register') }}">
         @csrf
-        
+
         <div class="mt-4">
             <label class="block text-gray-700 text-sm font-bold mb-2"
             >Prenom</label
