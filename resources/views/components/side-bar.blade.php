@@ -12,7 +12,7 @@
   </button>
   <h1 class="text-2xl font-bold text-blue-600 mb-6">FinanzApp</h1>
   <nav class="space-y-4 flex-grow">
-    <a href="#" class="flex items-center space-x-2 text-gray-700">
+    {{-- <a href="#" class="flex items-center space-x-2 text-gray-700">
       🏠
       <span>Dashboard</span>
     </a>
@@ -43,6 +43,46 @@
     >
       💱
       <span>Transactions</span>
+    </a> --}}
+
+    <a href="/" class="flex items-center space-x-2 text-gray-700">
+      🏠
+      <span>Dashboard</span>
+    </a>
+    <a
+      href="./cards/card.html"
+      class="flex items-center space-x-2 text-gray-700"
+    >
+      💳
+      <span>Mes Cartes</span>
+    </a>
+    <a
+      href="./transactions/transaction.html"
+      class="flex items-center space-x-2 text-gray-700"
+    >
+      💱
+      <span>Transactions</span>
+    </a>
+    <a
+      href="./pockets/poche.html"
+      class="flex items-center space-x-2 text-gray-700"
+    >
+      💸
+      <span>Gestion des Poches</span>
+    </a>
+    <a
+      href="./transactions/transaction.html"
+      class="flex items-center space-x-2 text-gray-700"
+    >
+      📈
+      <span>Statistics</span>
+    </a>
+    <a
+      href="./c-abonement/abonnement.html"
+      class="flex items-center space-x-2 text-gray-700"
+    >
+      🔗
+      <span>Mes Abonnements</span>
     </a>
   </nav>
 
