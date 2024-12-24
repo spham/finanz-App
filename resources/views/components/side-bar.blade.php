@@ -17,7 +17,7 @@
       <span>Dashboard</span>
     </a>
     <a
-      href="./plans/subs-plan.html"
+      href="{{ route('plan.index') }}"
       class="flex items-center space-x-2 text-gray-700"
     >
       📝
@@ -48,7 +48,7 @@
 
   <form method="POST" action="{{ route('logout') }}">
     @csrf
-    
+
     <button class="mt-auto text-red-500 flex items-center space-x-2 w-full">
       <span>Deconnexion</span>
     </button>
