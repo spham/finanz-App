@@ -31,7 +31,7 @@
       <span>Abonnements</span>
     </a>
     <a
-      href="./users/utilisateur.html"
+      href="{{ route('admin.user') }}"
       class="flex items-center space-x-2 text-gray-700"
     >
       👥
