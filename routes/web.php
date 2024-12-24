@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\AdminSubscriptionController;
+use App\Http\Controllers\AdminTransactionController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ProfileController;
@@ -24,5 +26,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home')->middleware(['auth', 'verified']);
 Route::resource('/admin/plan', PlanController::class)->middleware(['auth', 'verified']);
 Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.user')->middleware(['auth', 'verified']);
+Route::get('/admin/transaction', [AdminTransactionController::class, 'index'])->name('admin.transaction')->middleware(['auth', 'verified']);
+Route::get('/admin/subscription', [AdminSubscriptionController::class, 'index'])->name('admin.subscription')->middleware(['auth', 'verified']);
 
 require __DIR__ . '/auth.php';

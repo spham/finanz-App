@@ -24,7 +24,7 @@
       <span>Plans d'abonnement</span>
     </a>
     <a
-      href="./abonnements/abonnements.html"
+      href="{{ route('admin.subscription') }}"
       class="flex items-center space-x-2 text-gray-700"
     >
       🔗
@@ -38,7 +38,7 @@
       <span>Gerer Utilisateurs</span>
     </a>
     <a
-      href="./transactions/transaction.html"
+      href="{{ route('admin.transaction') }}"
       class="flex items-center space-x-2 text-gray-700"
     >
       💱
