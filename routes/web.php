@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin routes
-Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home');
-Route::resource('/admin/plan', PlanController::class);
+Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home')->middleware(['auth', 'verified']);
+Route::resource('/admin/plan', PlanController::class)->middleware(['auth', 'verified']);
 
 require __DIR__ . '/auth.php';

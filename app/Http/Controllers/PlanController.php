@@ -43,7 +43,7 @@ class PlanController extends Controller
             return to_route('plan.index')->with('success', 'Plan enregistre avec succes');
 
         } catch (\Throwable $th) {
-            return back()->with('error', 'Echec d\'enregistrement de plan');
+            return back()->with('error', 'Echec d\'enregistrement de plan. ' . $th->getMessage());
         }
 
     }
@@ -61,7 +61,10 @@ class PlanController extends Controller
      */
     public function edit(Plan $plan)
     {
-        //
+        return view('pages.admin.plan.edit', [
+            'plan' => $plan,
+            'planDurations' => Plan::getDurationValues()
+        ]);
     }
 
     /**
@@ -69,7 +72,9 @@ class PlanController extends Controller
      */
     public function update(UpdatePlanRequest $request, Plan $plan)
     {
-        //
+        $plan->update($request->validated());
+
+        return to_route('plan.index')->with('success', 'Plan modifier avec succes');
     }
 
     /**
@@ -77,6 +82,8 @@ class PlanController extends Controller
      */
     public function destroy(Plan $plan)
     {
-        //
+        $plan->delete();
+
+        return back()->with('success', 'Plan suprime avec succes');
     }
 }

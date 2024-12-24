@@ -59,7 +59,7 @@
             </th>
 
             <th
-                class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+                  class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
             ></th>
             </tr>
         </thead>
@@ -106,6 +106,24 @@
                         </td>
 
                         <td class="px-6 py-4 border-b border-gray-200 text-sm">${{ $plan->price }}</td>
+
+                        <td class="px-6 py-4 border-b border-gray-200 text-sm flex items-center">
+                            <a href="{{ route('plan.edit', $plan) }}"
+                                class="px-3 py-1 text-sm font-semibold text-green-700 bg-blue-200 rounded-full"
+                            >
+                                📝
+                            </a>
+                            <form method="POST" action="{{ route('plan.destroy', $plan) }}">
+                                @csrf
+                                @method('DELETE')
+
+                                <button
+                                    class="px-3 py-1 text-sm font-semibold text-green-700 bg-red-200 rounded-full" type="submit"
+                                >
+                                    🗑️
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             @endif
