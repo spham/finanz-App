@@ -12,78 +12,77 @@
   </button>
   <h1 class="text-2xl font-bold text-blue-600 mb-6">FinanzApp</h1>
   <nav class="space-y-4 flex-grow">
-    {{-- <a href="#" class="flex items-center space-x-2 text-gray-700">
-      🏠
-      <span>Dashboard</span>
-    </a>
-    <a
-      href="{{ route('plan.index') }}"
-      class="flex items-center space-x-2 text-gray-700"
-    >
-      📝
-      <span>Plans d'abonnement</span>
-    </a>
-    <a
-      href="{{ route('admin.subscription') }}"
-      class="flex items-center space-x-2 text-gray-700"
-    >
-      🔗
-      <span>Abonnements</span>
-    </a>
-    <a
-      href="{{ route('admin.user') }}"
-      class="flex items-center space-x-2 text-gray-700"
-    >
-      👥
-      <span>Gerer Utilisateurs</span>
-    </a>
-    <a
-      href="{{ route('admin.transaction') }}"
-      class="flex items-center space-x-2 text-gray-700"
-    >
-      💱
-      <span>Transactions</span>
-    </a> --}}
-
     <a href="/" class="flex items-center space-x-2 text-gray-700">
       🏠
       <span>Dashboard</span>
     </a>
-    <a
+
+    @if ($currentUser->role == 'admin')  
+      <a
+        href="{{ route('plan.index') }}"
+        class="flex items-center space-x-2 text-gray-700"
+      >
+        📝
+        <span>Plans d'abonnement</span>
+      </a>
+      <a
+        href="{{ route('admin.subscription') }}"
+        class="flex items-center space-x-2 text-gray-700"
+      >
+        🔗
+        <span>Abonnements</span>
+      </a>
+      <a
+        href="{{ route('admin.user') }}"
+        class="flex items-center space-x-2 text-gray-700"
+      >
+        👥
+        <span>Gerer Utilisateurs</span>
+      </a>
+      <a
+        href="{{ route('admin.transaction') }}"
+        class="flex items-center space-x-2 text-gray-700"
+      >
+        💱
+        <span>Transactions</span>
+      </a>
+    @else
+      <a
       href="./cards/card.html"
       class="flex items-center space-x-2 text-gray-700"
-    >
-      💳
-      <span>Mes Cartes</span>
-    </a>
-    <a
-      href="./transactions/transaction.html"
-      class="flex items-center space-x-2 text-gray-700"
-    >
-      💱
-      <span>Transactions</span>
-    </a>
-    <a
-      href="./pockets/poche.html"
-      class="flex items-center space-x-2 text-gray-700"
-    >
-      💸
-      <span>Gestion des Poches</span>
-    </a>
-    <a
-      href="./transactions/transaction.html"
-      class="flex items-center space-x-2 text-gray-700"
-    >
-      📈
-      <span>Statistics</span>
-    </a>
-    <a
-      href="./c-abonement/abonnement.html"
-      class="flex items-center space-x-2 text-gray-700"
-    >
-      🔗
-      <span>Mes Abonnements</span>
-    </a>
+      >
+        💳
+        <span>Mes Cartes</span>
+      </a>
+      <a
+        href="./transactions/transaction.html"
+        class="flex items-center space-x-2 text-gray-700"
+      >
+        💱
+        <span>Transactions</span>
+      </a>
+      <a
+        href="./pockets/poche.html"
+        class="flex items-center space-x-2 text-gray-700"
+      >
+        💸
+        <span>Gestion des Poches</span>
+      </a>
+      <a
+        href="./transactions/transaction.html"
+        class="flex items-center space-x-2 text-gray-700"
+      >
+        📈
+        <span>Statistics</span>
+      </a>
+      <a
+        href="./c-abonement/abonnement.html"
+        class="flex items-center space-x-2 text-gray-700"
+      >
+        🔗
+        <span>Mes Abonnements</span>
+      </a>
+    @endif
   </nav>
 
   <form method="POST" action="{{ route('logout') }}">

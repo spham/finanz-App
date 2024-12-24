@@ -54,6 +54,10 @@ class GoogleAuthController extends Controller
 
         }
 
+        if (Auth::user()->role == 'admin') {
+            return to_route('admin.home');
+        }
+
         // Redirect the user to the dashboard or any other secure page
         return redirect('/dashboard');
     }
