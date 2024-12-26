@@ -22,6 +22,8 @@ class User extends Authenticatable
         'firstName',
         'lastName',
         'email',
+        'password',
+        'image', //Si ca casse c'est ca
         'role'
     ];
 

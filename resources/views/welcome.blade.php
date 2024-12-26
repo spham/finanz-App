@@ -24,7 +24,8 @@
                     class="mx-auto mb-4 flex w-60 items-center justify-between rounded-full border border-emerald-600 p-1">
                     <span class="font-inter ml-3 text-xs font-medium text-gray-900">Connectez vous a votre
                         compte</span>
-                    <a href="javascript:;" class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600">
+                    <a href="{{ route('login') }}"
+                        class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600">
                         <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -41,7 +42,7 @@
                 <p class="mx-auto mb-9 max-w-sm text-center text-base font-normal leading-7 text-gray-500">
                     Découvrez une meilleure façon de gérer facilement l’ensemble de votre patrimoine.
                 </p>
-                <a href="javascript:;"
+                <a href="{{ route('register') }}"
                     class="shadow-xs mb-14 inline-flex w-full items-center justify-center rounded-full bg-emerald-500 px-7 py-3 text-center text-base font-semibold text-white transition-all duration-500 hover:bg-emerald-600 md:w-auto">
                     Essayer gratuitement
                     <svg class="ml-2" width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -92,7 +93,7 @@
                     </div>
                 </div>
             </label>
-            <span class="mr-3 text-gray-600">Annuel</span>
+            <span class="ml-3 text-gray-600">Annuel</span>
         </div>
 
         <div class="flex w-full items-center justify-center">
@@ -133,12 +134,32 @@
                                 </li>
                             </ul>
                         </div>
-                        <a 
-                            class="mt-8 block w-full rounded-md border border-transparent bg-emerald-50 px-6 py-3 text-center font-medium text-emerald-700 hover:bg-emerald-100 
-                            {{ $currentUser->subscriptions()->active() ? 'pointer-events-none' : '' }}
-                             "
+                        @if ($activeSubscription)
+                            @if ($activeSubscription->planId == $plan->id)
+                                <button class="mt-4 w-full rounded bg-gray-400 py-2 text-white" disabled>
+                                    Abonnement actuel
+                                </button>
+                            @elseif ($plan->price > $activeSubscription->plan->price)
+                                <a href="{{ route('plan.checkout', $plan->id) }}" data-period="monthly"
+                                    class="mt-8 block w-full rounded-md border border-transparent bg-emerald-50 px-6 py-3 text-center font-medium text-emerald-700 hover:bg-emerald-100">
+                                    Mettre à niveau
+                                </a>
+                            @else
+                                <button
+                                    class="mt-8 block w-full rounded-md border border-transparent bg-red-500 px-6 py-3 text-center font-medium text-red-700 hover:bg-red-100"
+                                    disabled>
+                                    Non disponible
+                                </button>
+                            @endif
+                        @else
+                            <a href="{{ route('plan.checkout', $plan->id) }}" data-period="monthly"
+                                class="mt-8 block w-full rounded-md border border-transparent bg-emerald-50 px-6 py-3 text-center font-medium text-emerald-700 hover:bg-emerald-100">
+                                Souscrire
+                            </a>
+                        @endif
+                        {{-- <a class="{{ $currentUser ? ($currentUser->subscriptions()->active() ? 'pointer-events-none' : '') : '' }} mt-8 block w-full rounded-md border border-transparent bg-emerald-50 px-6 py-3 text-center font-medium text-emerald-700 hover:bg-emerald-100"
                             data-period="monthly"
-                            href="{{ $plan->price == 0 ? route('register') : route('plan.checkout', $plan) }}">{{ $plan->price == 0 ? 'Inscrivez-vous gratuitement' : 'Inscrivez-vous' }}</a>
+                            href="{{ $plan->price == 0 ? route('register') : route('plan.checkout', $plan) }}">{{ $plan->price == 0 ? 'Inscrivez-vous gratuitement' : 'Inscrivez-vous' }}</a> --}}
                     </div>
                 @endforeach
             </div>

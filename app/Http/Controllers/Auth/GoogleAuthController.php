@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Plan;
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -49,6 +51,22 @@ class GoogleAuthController extends Controller
                     'email_verified_at' => now()
                 ]
             );
+
+            $startDate = now();
+            $endDate = $startDate->copy()->addYear();
+
+            //did after
+            $freePlan = Plan::where('duration', Plan::FREE_ACCESS)->first();
+            Subscription::create([
+                'userId' => $newUser->id,
+                'planId' => $freePlan->id,
+                'period' => Plan::YEARLY_DURATION,
+                'startDate' => now(),
+                'endDate' => $endDate,
+                'amount' => $freePlan->price,
+                'paymentStatus' => Subscription::PAYMENT_STATUS_NO_PAYMENT_REQUIRED,
+                'status' => Subscription::STATUS_ACTIVE,
+            ]);
 
             Auth::login($newUser);
 

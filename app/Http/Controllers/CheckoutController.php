@@ -12,7 +12,6 @@ use Throwable;
 
 class CheckoutController extends Controller
 {
-
     public function __construct(private StripeClient $stripeClient)
     {
         $this->stripeClient = new StripeClient(env('STRIPE_SECRET'));
@@ -26,14 +25,6 @@ class CheckoutController extends Controller
 
         $user = Auth::user();
 
-        // $endDate = $period === 'monthly'
-        //     ? $startDate->copy()->addMonth()
-        //     : $startDate->copy()->addYear();
-
-        if ($user->subscriptions()->active()->exists()) {
-            return redirect('/')->with('error', 'Vous avez déjà un abonnement actif.');
-        }
-
         //on refacto
         $totalAmount = $this->calculateTotalAmount($plan, $period);
 
@@ -41,18 +32,6 @@ class CheckoutController extends Controller
         //on refacto
         $endDate = $period === 'monthly' ? $startDate->copy()->addMonth() : $startDate->copy()->addYear();
 
-        // Did first before refacto
-        // if ($period === 'monthly') {
-        //     $totalAmount = $plan->price * 100;
-        //     $endDate = $startDate->copy()->addMonth();
-        // } else if ($period === 'yearly') {
-        //     $totalAmount = $plan->price * 100 * 12;
-        //     $endDate = $startDate->copy()->addYear();
-        // } else {
-        //     return redirect('/')->with('error', 'Cette periode de plan n\'existe pas.');
-        // }
-
-        // dd($plan, $period, $startDate, $endDate, Auth::user()->email);
         try {
             $checkoutSession = $this->stripeClient->checkout->sessions->create([
                 'payment_method_types' => ['card'],// to add
@@ -103,9 +82,22 @@ class CheckoutController extends Controller
     {
         $sessionId = $request->query('session_id');
         $checkoutSession = $this->stripeClient->checkout->sessions->retrieve($sessionId);
+
         if ($checkoutSession->payment_status == 'paid') {
-            $subcription = Subscription::where('sessionId', $sessionId)->first();
-            $subcription->update([
+            $subscription = Subscription::where('sessionId', $sessionId)->first();
+
+            $activeSubscription = Subscription::where('userId', $subscription->userId)
+                ->where('status', Subscription::STATUS_ACTIVE)
+                ->first();
+
+            if ($activeSubscription) {
+                $activeSubscription->update([
+                    'status' => Subscription::STATUS_DISABLED,
+                    'endDate' => now(), // Fin immédiate de l'ancien abonnement
+                ]);
+            }
+
+            $subscription->update([
                 'paymentStatus' => Subscription::PAYMENT_STATUS_PAID,
                 'status' => Subscription::STATUS_ACTIVE
             ]);

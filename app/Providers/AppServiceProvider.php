@@ -27,8 +27,8 @@ class AppServiceProvider extends ServiceProvider
             $view->with('plans', Plan::all());
         });
 
-        // View::composer('*', function ($view) {
-        //     $view->with('plans', Plan::all());
-        // });
+        View::composer('*', function ($view) {
+            $view->with('activeSubscription', Auth::user() ? Auth::user()->subscriptions()->active()->first() : null);
+        });
     }
 }
