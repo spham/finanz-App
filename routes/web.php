@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminTransactionController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\DasboardController;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +29,12 @@ Route::get('/admin/subscription', [AdminSubscriptionController::class, 'index'])
     ->middleware(['auth', 'verified']);
 
 
-//Users Routes
+// Users Routes
 Route::get('/dashboard', [DasboardController::class, 'index'])->name('users.home')->middleware(['auth', 'verified']);
+
+// Checkout routes
+Route::get('/checkout/plan/{plan}', [CheckoutController::class, 'checkout'])->name('plan.checkout')->middleware(['auth', 'verified']);
+Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('plan.checkout.succes')->middleware(['auth', 'verified']);
+Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('plan.checkout.cancel')->middleware(['auth', 'verified']);
 
 require __DIR__ . '/auth.php';

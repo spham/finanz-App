@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return Storage::url($this->image);
     }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class, 'userId', 'id');
+    }
 }

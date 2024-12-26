@@ -76,6 +76,25 @@
                 supérieure lorsque vous êtes prêt.
             </p>
         </div>
+
+        <!-- Toggle Switch -->
+        <div class="mt-3 flex w-full items-center justify-center">
+            <span class="mr-3 text-gray-600">Mesuel</span>
+            <label for="toggle" class="flex cursor-pointer items-center">
+                <div class="relative">
+                    <input type="checkbox" name="period" id="toggle" class="sr-only"
+                        onchange="toggleDarkMode(this)" />
+                    <div
+                        class="block h-8 w-14 rounded-full bg-gray-300 shadow-neumorphic-toggle-outset transition-all duration-300 ease-in-out">
+                    </div>
+                    <div
+                        class="dot absolute left-1 top-1 h-6 w-6 rounded-full bg-white transition-transform duration-300 ease-in-out">
+                    </div>
+                </div>
+            </label>
+            <span class="mr-3 text-gray-600">Annuel</span>
+        </div>
+
         <div class="flex w-full items-center justify-center">
             <div class="mt-24 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:space-y-0">
                 @foreach ($plans as $plan)
@@ -114,12 +133,58 @@
                                 </li>
                             </ul>
                         </div>
-                        <a class="mt-8 block w-full rounded-md border border-transparent bg-emerald-50 px-6 py-3 text-center font-medium text-emerald-700 hover:bg-emerald-100"
-                            href="{{ route('register') }}">{{ $plan->price == 0 ? 'Inscrivez-vous gratuitement' : 'Inscrivez-vous' }}</a>
+                        <a 
+                            class="mt-8 block w-full rounded-md border border-transparent bg-emerald-50 px-6 py-3 text-center font-medium text-emerald-700 hover:bg-emerald-100 
+                            {{ $currentUser->subscriptions()->active() ? 'pointer-events-none' : '' }}
+                             "
+                            data-period="monthly"
+                            href="{{ $plan->price == 0 ? route('register') : route('plan.checkout', $plan) }}">{{ $plan->price == 0 ? 'Inscrivez-vous gratuitement' : 'Inscrivez-vous' }}</a>
                     </div>
                 @endforeach
             </div>
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const planLinks = document.querySelectorAll('a[data-period]');
+                planLinks.forEach((link) => {
+                    const url = new URL(link.href);
+                    url.searchParams.set('period', 'monthly');
+                    link.href = url.toString();
+                    link.setAttribute('data-period', 'monthly');
+                });
+            });
+
+            function toggleDarkMode(checkbox) {
+                const toggleTrack = checkbox.nextElementSibling
+                const toggleDot = toggleTrack.nextElementSibling
+
+                if (checkbox.checked) {
+                    toggleTrack.classList.remove('shadow-neumorphic-toggle-outset')
+                    toggleTrack.classList.add(
+                        'bg-green-500',
+                        'shadow-neumorphic-toggle-inset'
+                    )
+                    toggleDot.classList.add('translate-x-6')
+                } else {
+                    toggleTrack.classList.remove(
+                        'bg-green-500',
+                        'shadow-neumorphic-toggle-inset'
+                    )
+                    toggleTrack.classList.add('shadow-neumorphic-toggle-outset')
+                    toggleDot.classList.remove('translate-x-6')
+                }
+
+                // Update plan links based on toggle state
+                const period = checkbox.checked ? 'yearly' : 'monthly';
+                const planLinks = document.querySelectorAll('a[data-period]');
+                planLinks.forEach((link) => {
+                    const url = new URL(link.href);
+                    url.searchParams.set('period', period);
+                    link.href = url.toString();
+                    link.setAttribute('data-period', period);
+                });
+            }
+        </script>
     </body>
 
 </html>
