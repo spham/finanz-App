@@ -60,8 +60,20 @@ class User extends Authenticatable
         return $this->hasMany(Subscription::class, 'userId', 'id');
     }
 
+    public function activeSubscription()
+    {
+        return $this->subscriptions()
+            ->where('status', Subscription::STATUS_ACTIVE)
+            ->first();
+    }
+
     public function cards()
     {
         return $this->hasMany(Card::class, 'userId', 'id');
+    }
+
+    public function pockets()
+    {
+        return $this->hasMany(Pocket::class, 'userId', 'id');
     }
 }

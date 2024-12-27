@@ -33,13 +33,13 @@
                 💳
                 <span>Mes Cartes</span>
             </a>
+            <a href="{{ route('pocket.index') }}" class="flex items-center space-x-2 text-gray-700">
+                💸
+                <span>Gestion des Poches</span>
+            </a>
             <a href="./transactions/transaction.html" class="flex items-center space-x-2 text-gray-700">
                 💱
                 <span>Transactions</span>
-            </a>
-            <a href="./pockets/poche.html" class="flex items-center space-x-2 text-gray-700">
-                💸
-                <span>Gestion des Poches</span>
             </a>
             <a href="./transactions/transaction.html" class="flex items-center space-x-2 text-gray-700">
                 📈

@@ -9,6 +9,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\CardController;
 use App\Http\Controllers\User\DasboardController;
+use App\Http\Controllers\User\PocketController;
 use App\Http\Controllers\User\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,8 @@ Route::get('/admin/subscription', [AdminSubscriptionController::class, 'index'])
 Route::get('/dashboard', [DasboardController::class, 'index'])->name('users.home')->middleware(['auth', 'verified']);
 Route::get('/subscription', [SubscriptionController::class, 'subscriptions'])->name('users.subscriptions')->middleware(['auth', 'verified']);
 Route::resource('/card', CardController::class)->middleware(['auth', 'verified']);
+
+Route::resource('/pocket', PocketController::class)->middleware(['auth', 'verified']);
 
 
 // Checkout routes

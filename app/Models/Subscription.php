@@ -49,4 +49,10 @@ class Subscription extends Model
         // Vérifie si le nombre actuel de cartes est inférieur au nombre maximum autorisé par le plan
         return $this->cardCount < $this->plan->maxCards;
     }
+
+    public function canAddMorePockets(): bool
+    {
+        // Vérifie si le nombre actuel de poche est inférieur au nombre maximum autorisé par le plan
+        return $this->pockectCount < $this->plan->maxPocket;
+    }
 }

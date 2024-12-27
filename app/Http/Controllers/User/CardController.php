@@ -32,7 +32,7 @@ class CardController extends Controller
             ->where('status', Subscription::STATUS_ACTIVE)
             ->first();
 
-        // Si l'abonnement est actif, calcule le nombre de cartes restantes
+        // Si l'abonnement est actif, calcule le nombre de cartes restantes // la condition n'est pas necessaire
         if ($activeSubscription) {
             $remainingCards = $activeSubscription->plan->maxCards - $this->user->cards->count();
         } else {
