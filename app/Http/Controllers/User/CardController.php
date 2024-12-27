@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Card\StoreCardRequest;
 use App\Http\Requests\Card\UpdateCardRequest;
 use App\Models\Card;
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CardController extends Controller
 {
@@ -20,11 +22,28 @@ class CardController extends Controller
      */
     public function index()
     {
+        //pour date
         // $cards = $this->user->cards()->get()->map(function ($card) {
         //     $card->formatted_expiry_date = \Carbon\Carbon::parse($card->expiry_date)->format('m/y');
         //     return $card;
-        // });
-        return view('pages.users.cards.index', ['cards' => $this->user->cards()->get()]);
+        // });.
+
+        $activeSubscription = Subscription::where('userId', $this->user->id)
+            ->where('status', Subscription::STATUS_ACTIVE)
+            ->first();
+
+        // Si l'abonnement est actif, calcule le nombre de cartes restantes
+        if ($activeSubscription) {
+            $remainingCards = $activeSubscription->plan->maxCards - $this->user->cards->count();
+        } else {
+            $remainingCards = 0;
+        }
+
+        // Retourne à la vue avec les données nécessaires
+        return view('pages.users.cards.index', [
+            'cards' => $this->user->cards()->get(),
+            'remainingCards' => $remainingCards
+        ]);
     }
 
     /**
@@ -32,6 +51,14 @@ class CardController extends Controller
      */
     public function create()
     {
+        $activeSubscription = Subscription::where('userId', $this->user->id)
+            ->where('status', Subscription::STATUS_ACTIVE)
+            ->first();
+
+        if (!$activeSubscription->canAddMoreCards()) {
+            return back()->with('error', 'Impossible d\'ajouter une carte. Limite atteinte.');
+        }
+
         return view('pages.users.cards.edit', ['cardTypes' => Card::getCardTypes()]);
     }
 
@@ -41,7 +68,15 @@ class CardController extends Controller
     public function store(StoreCardRequest $request)
     {
 
-        $this->user->cards()->create($request->validated());
+        // $this->user->cards()->create($request->validated());
+
+        DB::transaction(function () use ($request) {
+            $this->user->cards()->create($request->validated());
+
+            Subscription::where('userId', $this->user->id)
+                ->where('status', Subscription::STATUS_ACTIVE)
+                ->increment('cardCount');
+        });
 
         return to_route('card.index')->with('success', 'Carte ajoute avec succes');
     }

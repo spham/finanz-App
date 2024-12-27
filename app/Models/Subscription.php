@@ -23,7 +23,10 @@ class Subscription extends Model
         'amount',
         'paymentStatus',
         'status',
-        'sessionId'
+        'sessionId',
+        'cardCount',
+        'pockectCount',
+        'transactionCount'
     ];
 
     public function subscriber()
@@ -39,5 +42,11 @@ class Subscription extends Model
     public function scopeActive($query)
     {
         return $query->where('status', Subscription::STATUS_ACTIVE);
+    }
+
+    public function canAddMoreCards(): bool
+    {
+        // Vérifie si le nombre actuel de cartes est inférieur au nombre maximum autorisé par le plan
+        return $this->cardCount < $this->plan->maxCards;
     }
 }

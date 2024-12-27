@@ -3,11 +3,30 @@
 @section('contents')
     <!-- Page Heading -->
     <div class="mb-6 flex items-center justify-between">
-        <h1 class="text-2xl font-bold">Mes Cartes</h1>
-        <a href="{{ route('card.create') }}"
-            class="rounded-full bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600">
-            Ajouter une carte
-        </a>
+        <div class="flex items-center">
+            <h1 class="mr-4 text-2xl font-bold">Mes Cartes</h1>
+            <p>Il vous reste : <span class="text-red-400">
+                    {{-- {{ $activeSubscription->plan->maxCards - $currentUser->cards->count() }} --}}
+                    {{ $remainingCards }}
+                </span>
+                Cartes possible
+            </p>
+        </div>
+        {{-- @if ($currentUser->cards->count() < $activeSubscription->plan->maxCards) --}}
+        @if ($remainingCards > 0)
+            <a href="{{ route('card.create') }}"
+                class="rounded-full bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600">
+                Ajouter une carte</span>
+            </a>
+        @else
+            <buttons class="mt-4 rounded bg-red-300 px-4 py-2 font-bold text-red-700" disabled>
+                Max de card epuise il faut mettre a niveau
+            </buttons>
+            <a href="/" class="rounded-full bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600">
+                Mettre a niveau</span>
+            </a>
+        @endif
+
     </div>
 
     @session('success')
