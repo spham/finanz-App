@@ -29,7 +29,7 @@
                 <span>Transactions</span>
             </a>
         @else
-            <a href="./cards/card.html" class="flex items-center space-x-2 text-gray-700">
+            <a href="{{ route('card.index') }}" class="flex items-center space-x-2 text-gray-700">
                 💳
                 <span>Mes Cartes</span>
             </a>
@@ -45,7 +45,7 @@
                 📈
                 <span>Statistics</span>
             </a>
-            <a href="./c-abonement/abonnement.html" class="flex items-center space-x-2 text-gray-700">
+            <a href="{{ route('users.subscriptions') }}" class="flex items-center space-x-2 text-gray-700">
                 🔗
                 <span>Mes Abonnements</span>
             </a>
