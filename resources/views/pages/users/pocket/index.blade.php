@@ -43,7 +43,7 @@
                         <p class="mb-4 text-sm text-gray-500">Échéance : {{ $pocket->dueDate }}</p>
                     </div>
                     <span
-                        class="text-bold {{ $pocket->isBlocked == 1 ? 'bg-green-400' : 'bg-red-400' }} rounded-md p-2 text-sm text-white">{{ $pocket->isBlocked == 1 ? 'Ouvert' : 'Bloque' }}</span>
+                        class="text-bold {{ $pocket->isBlocked == 1 ? 'bg-red-400' : 'bg-green-400' }} rounded-md p-2 text-sm text-white">{{ $pocket->isBlocked == 1 ? 'Bloque' : 'Ouvert' }}</span>
                 </div>
                 <div class="z-10 pt-1">
                     <div class="mb-2 flex items-center justify-between">

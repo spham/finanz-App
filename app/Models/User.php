@@ -76,4 +76,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Pocket::class, 'userId', 'id');
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 'userId', 'id');
+    }
 }

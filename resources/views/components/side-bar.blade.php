@@ -37,7 +37,7 @@
                 💸
                 <span>Gestion des Poches</span>
             </a>
-            <a href="./transactions/transaction.html" class="flex items-center space-x-2 text-gray-700">
+            <a href="{{ route('transaction.index') }}" class="flex items-center space-x-2 text-gray-700">
                 💱
                 <span>Transactions</span>
             </a>

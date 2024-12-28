@@ -23,10 +23,10 @@ class Pocket extends Model
 
     public function calculateProgression()
     {
-        if ($this->balanceGoal <= 0 || $this->balance <= 0) {
-            return 0; // Pas de progression possible
+        if ($this->balanceGoal >= 0 || $this->balance >= 0) {
+
+            $this->progression = round(min(($this->balance / $this->balanceGoal) * 100, 100), 2); // Limiter à 100% et arrondir
         }
 
-        return min(($this->balance / $this->balanceGoal) * 100, 100); // Limiter à 100%
     }
 }

@@ -11,6 +11,7 @@ use App\Http\Controllers\User\CardController;
 use App\Http\Controllers\User\DasboardController;
 use App\Http\Controllers\User\PocketController;
 use App\Http\Controllers\User\SubscriptionController;
+use App\Http\Controllers\User\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -39,6 +40,7 @@ Route::resource('/card', CardController::class)->middleware(['auth', 'verified']
 
 Route::resource('/pocket', PocketController::class)->middleware(['auth', 'verified']);
 
+Route::resource('/transaction', TransactionController::class)->middleware(['auth', 'verified']);
 
 // Checkout routes
 Route::get('/checkout/plan/{plan}', [CheckoutController::class, 'checkout'])->name('plan.checkout')->middleware(['auth', 'verified']);
