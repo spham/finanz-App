@@ -3,11 +3,28 @@
 @section('contents')
     <!-- Page Heading -->
     <div class="mb-6 flex items-center justify-between">
-        <h1 class="text-2xl font-bold">Transactions</h1>
-        <a href="{{ route('transaction.create') }}"
-            class="rounded-full bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600">
-            Ajouter une transaction
-        </a>
+        <div class="flex items-center">
+            <h1 class="text-2xl font-bold">Gestion des Transactions</h1>
+            <p>Il vous reste : <span class="text-red-400">
+                    {{ $remainingTransactions }}
+                </span>
+                Transactions possible
+            </p>
+        </div>
+
+        @if ($remainingTransactions > 0)
+            <a href="{{ route('transaction.create') }}"
+                class="rounded-full bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600">
+                Ajouter une transaction</span>
+            </a>
+        @else
+            <buttons class="mt-4 rounded bg-red-300 px-4 py-2 font-bold text-red-700" disabled>
+                Max de transaction epuise il faut mettre a niveau
+            </buttons>
+            <a href="/" class="rounded-full bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600">
+                Mettre a niveau</span>
+            </a>
+        @endif
     </div>
 
     @session('success')
@@ -74,13 +91,10 @@
                         </td>
 
                         <td class="border-b border-gray-200 px-6 py-4 text-sm">
-                            <button class="rounded-full bg-green-200 px-3 py-1 text-sm font-semibold text-green-700"
-                                onclick="openViewPopup()">
-                                👁️
-                            </button>
-                            <button class="rounded-full bg-blue-200 px-3 py-1 text-sm font-semibold text-green-700">
+                            <a href="{{ route('transaction.edit', $transaction) }}"
+                                class="rounded-full bg-blue-200 px-3 py-1 text-sm font-semibold text-green-700">
                                 📝
-                            </button>
+                            </a>
                             <button class="rounded-full bg-red-200 px-3 py-1 text-sm font-semibold text-green-700">
                                 🗑️
                             </button>

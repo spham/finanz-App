@@ -23,7 +23,12 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        return view('pages.users.transaction.index', ['transactions' => $this->user->transactions()->get()]);
+        $activeSubscription = $this->user->activeSubscription();
+
+        return view('pages.users.transaction.index', [
+            'transactions' => $this->user->transactions()->get(),
+            'remainingTransactions' => $activeSubscription->plan->maxTransaction - $this->user->transactions()->count()
+        ]);
     }
 
     /**
@@ -300,6 +305,6 @@ class TransactionController extends Controller
      */
     public function destroy(Transaction $transaction)
     {
-        //
+        $transaction->delete();
     }
 }

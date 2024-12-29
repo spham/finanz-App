@@ -15,9 +15,13 @@
 
     <div id="cardPopup" class="w-full">
         <div class="rounded-lg bg-white p-6 shadow-lg">
-            <h2 class="mb-4 text-lg font-semibold">Ajouter une transaction</h2>
-            <form action="{{ route('transaction.store') }}" method="POST">
+            <h2 class="mb-4 text-lg font-semibold">{{ isset($transaction) ? 'Modifier' : 'Ajouter' }} une transaction</h2>
+            <form action="{{ isset($transaction) ? route('transaction.update', $transaction) : route('transaction.store') }}"
+                method="POST">
                 @csrf
+                @isset($transaction)
+                    @method('PUT')
+                @endisset
 
                 <!-- Type de Transaction -->
                 <div class="mb-4">
@@ -26,7 +30,8 @@
                         class="focus:shadow-outline block w-full appearance-none rounded border border-gray-300 bg-gray-200 px-4 py-2 text-gray-700 focus:outline-none">
                         <option value="">Sélectionnez un type</option>
                         @foreach ($types as $type)
-                            <option value="{{ $type }}">{{ $type }}</option>
+                            <option @isset($transaction) @selected($transaction->type === $type) @endisset
+                                value="{{ $type }}">{{ $type }}</option>
                         @endforeach
                     </select>
                     @error('type')
@@ -42,13 +47,15 @@
                         <option value="">Sélectionnez une source (si applicable)</option>
                         <optgroup label="Cartes">
                             @foreach ($cards as $card)
-                                <option value="{{ $card->id }}" data-type="card">{{ $card->name }}
+                                <option @if (isset($transaction) && $transaction->source != null) @selected($transaction->source->id === $card->id) @endif
+                                    value="{{ $card->id }}" data-type="card">{{ $card->name }}
                                     $({{ $card->balance }})</option>
                             @endforeach
                         </optgroup>
                         <optgroup label="Poches">
                             @foreach ($sourcePockets as $pocket)
-                                <option value="{{ $pocket->id }}" data-type="pocket">{{ $pocket->name }}
+                                <option @if (isset($transaction) && $transaction->source != null) @selected($transaction->source->id === $pocket->id) @endif
+                                    value="{{ $pocket->id }}" data-type="pocket">{{ $pocket->name }}
                                     $({{ $pocket->balance }})</option>
                             @endforeach
                         </optgroup>
@@ -67,13 +74,15 @@
                         <option value="">Sélectionnez une destination (si applicable)</option>
                         <optgroup label="Cartes">
                             @foreach ($cards as $card)
-                                <option value="{{ $card->id }}" data-type="card">{{ $card->name }}
+                                <option @if (isset($transaction) && $transaction->destination != null) @selected($transaction->destination->id === $card->id) @endif
+                                    value="{{ $card->id }}" data-type="card">{{ $card->name }}
                                     $({{ $card->balance }})</option>
                             @endforeach
                         </optgroup>
                         <optgroup label="Poches">
                             @foreach ($destPockets as $pocket)
-                                <option value="{{ $pocket->id }}" data-type="pocket">{{ $pocket->name }}
+                                <option @if (isset($transaction) && $transaction->destination != null) @selected($transaction->destination->id === $pocket->id) @endif
+                                    value="{{ $pocket->id }}" data-type="pocket">{{ $pocket->name }}
                                     $({{ $pocket->balance }})</option>
                             @endforeach
                         </optgroup>
@@ -87,6 +96,7 @@
                 <div class="mb-4">
                     <label for="description" class="mb-2 block font-bold text-gray-700">Description</label>
                     <input type="text" name="description" id="description" required
+                        value="{{ old('description', isset($transaction) ? $transaction->description : '') }}"
                         class="focus:shadow-outline block w-full appearance-none rounded border border-gray-300 bg-gray-200 px-4 py-2 text-gray-700 focus:outline-none" />
                     @error('description')
                         <p class="mt-2 text-red-500">{{ $message }}</p>
@@ -97,6 +107,7 @@
                 <div class="mb-4">
                     <label for="amount" class="mb-2 block font-bold text-gray-700">Montant</label>
                     <input type="number" name="amount" id="amount" required
+                        value="{{ old('description', isset($transaction) ? $transaction->amount : '') }}"
                         class="focus:shadow-outline block w-full appearance-none rounded border border-gray-300 bg-gray-200 px-4 py-2 text-gray-700 focus:outline-none" />
                     @error('amount')
                         <p class="mt-2 text-red-500">{{ $message }}</p>
@@ -105,8 +116,9 @@
 
                 <!-- Bouton Soumettre -->
                 <div class="text-right">
-                    <button type="submit" class="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-500">
-                        Ajouter Transaction
+                    <button type="submit"
+                        class="w-full rounded bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600">
+                        {{ isset($transaction) ? 'Modifier' : 'Ajouter' }} Transaction
                     </button>
                 </div>
             </form>
