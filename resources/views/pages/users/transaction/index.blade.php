@@ -90,14 +90,18 @@
                             {{ $transaction->amount }}
                         </td>
 
-                        <td class="border-b border-gray-200 px-6 py-4 text-sm">
+                        <td class="flex items-center border-b border-gray-200 px-6 py-4 text-sm">
                             <a href="{{ route('transaction.edit', $transaction) }}"
                                 class="rounded-full bg-blue-200 px-3 py-1 text-sm font-semibold text-green-700">
                                 📝
                             </a>
-                            <button class="rounded-full bg-red-200 px-3 py-1 text-sm font-semibold text-green-700">
-                                🗑️
-                            </button>
+                            <form action="{{ route('transaction.destroy', $transaction) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="rounded-full bg-red-200 px-3 py-1 text-sm font-semibold text-green-700">
+                                    🗑️
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

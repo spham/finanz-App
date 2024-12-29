@@ -297,7 +297,56 @@ class TransactionController extends Controller
      */
     public function update(UpdateTransactionRequest $request, Transaction $transaction)
     {
-        //
+        // Obtenez les entités source et destination via la méthode polymorphe
+        $source = $this->getEntity($request->source_type, $request->source_id);
+        $destination = $this->getEntity($request->destination_type, $request->destination_id);
+
+        DB::transaction(function () use ($request, $source, $destination, $transaction) {
+            // Créer la transaction
+            $transaction->fill([
+                'type' => $request->type,
+                'description' => $request->description,
+                'amount' => $request->amount,
+            ]);
+
+            // Lier les entités source et destination à la transaction
+            if ($source) {
+                $transaction->source()->associate($source);
+            }
+
+            if ($destination) {
+                $transaction->destination()->associate($destination);
+            }
+
+            // Enregistrez la transaction
+            $transaction->update(); // Sauvegarder la transaction après l'association
+
+            // Mettre à jour le solde de la source, si elle existe
+            if ($source) {
+                $source->balance -= $request->amount;
+
+                if ($request->source_type === 'pocket') {
+                    $source->calculateProgression();
+                }
+
+                $source->save(); // Sauvegarder après modification
+            }
+
+            // Mettre à jour le solde de la destination, si elle existe
+            if ($destination) {
+                $destination->balance += $request->amount;
+
+                if ($request->destination_type === 'pocket') {
+                    $destination->calculateProgression();
+                }
+                $destination->save(); // Sauvegarder après modification
+            }
+
+            // Incrémenter le compteur de transactions de l'utilisateur
+            $this->user->activeSubscription()->increment('transactionCount');
+        });
+
+        return to_route('transaction.index')->with('success', 'Transaction ajoutée avec succès');
     }
 
     /**
@@ -305,6 +354,36 @@ class TransactionController extends Controller
      */
     public function destroy(Transaction $transaction)
     {
-        $transaction->delete();
+        DB::transaction(function () use ($transaction) {
+            // Mettre à jour le solde de la source, si elle existe
+            if ($transaction->source) {
+                $transaction->source->balance += $transaction->amount;
+
+                if ($transaction->source_type === 'pocket') {
+                    $transaction->source->calculateProgression();
+                }
+
+                $transaction->source->save(); // Sauvegarder après modification
+            }
+
+            // Mettre à jour le solde de la destination, si elle existe
+            if ($transaction->destination) {
+                $transaction->destination->balance -= $transaction->amount;
+
+                if ($transaction->destination_type === 'pocket') {
+                    $transaction->destination->calculateProgression();
+                }
+                $transaction->destination->save(); // Sauvegarder après modification
+            }
+
+            // Supprimer la transaction
+            $transaction->delete();
+
+            // Décrémenter le compteur de transactions de l'utilisateur
+            $this->user->activeSubscription()->decrement('transactionCount');
+
+        });
+
+        return back()->with('success', 'Transaction supprimée avec succès');
     }
 }
