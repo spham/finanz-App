@@ -2,103 +2,66 @@
 
 @section('contents')
     <!-- Page Heading -->
-    <div class="flex justify-between items-center mb-6">
+    <div class="mb-6 flex items-center justify-between">
         <h1 class="text-2xl font-bold">Gestion des transaction</h1>
     </div>
 
     <!-- Subscription Table -->
-    <div class="bg-white shadow-md rounded-lg overflow-x-auto p-2">
+    <div class="overflow-x-auto rounded-lg bg-white p-2 shadow-md">
+
+        {{-- table --}}
         <table class="min-w-full bg-white">
-        <thead>
-            <tr>
-            <th
-                class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-            >
-                Date
-            </th>
-            <th
-                class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-            >
-                Abonnement
-            </th>
-            <th
-                class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-            >
-                Prenom & Nom
-            </th>
+            <thead>
+                <tr>
+                    <th
+                        class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                        Date
+                    </th>
+                    <th
+                        class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                        Prenom & Nom
+                    </th>
 
-            <th
-                class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-            >
-                Nom Transaction
-            </th>
-            <th
-                class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-            >
-                Type
-            </th>
-            <th
-                class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-            >
-                Montant
-            </th>
+                    <th
+                        class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                        Nom Transaction
+                    </th>
+                    <th
+                        class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                        Type
+                    </th>
+                    <th
+                        class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                        Montant
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($transactions as $transaction)
+                    <tr>
+                        <td class="border-b border-gray-200 px-6 py-4 text-sm text-gray-600">
+                            {{ $transaction->created_at }}
+                        </td>
 
-            <th
-                class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-            >
-                Status
-            </th>
-            <th
-                class="px-6 py-3 border-b-2 border-gray-300 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-            ></th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Transaction Row 1 -->
-            <tr>
-            <td
-                class="px-6 py-4 border-b border-gray-200 text-sm text-gray-600"
-            >
-                03/15/2024
-            </td>
-            <td class="px-6 py-4 border-b border-gray-200 text-sm">
-                <span
-                class="px-3 py-1 text-xs font-semibold text-blue-700 bg-blue-200 rounded-md"
-                >
-                Premium
-                </span>
-            </td>
-            <td
-                class="px-6 py-4 border-b border-gray-200 text-sm text-gray-600"
-            >
-                Diam Diallo
-            </td>
-            <td class="px-6 py-4 border-b border-gray-200 text-sm">
-                <span
-                class="px-3 py-1 text-xs font-semibold text-green-700 bg-green-200 rounded-md"
-                >
-                Achat Bike
-                </span>
-            </td>
-            <td class="px-6 py-4 border-b border-gray-200 text-sm">
-                <span
-                class="px-3 py-1 text-xs font-semibold text-green-700 bg-green-200 rounded-md"
-                >
-                Revenu
-                </span>
-            </td>
-            <td class="px-6 py-4 border-b border-gray-200 text-sm">
-                $2000
-            </td>
-            <td class="px-6 py-4 border-b border-gray-200 text-sm">
-                <span
-                class="px-3 py-1 text-xs font-semibold text-green-700 bg-green-200 rounded-full"
-                >
-                Complet
-                </span>
-            </td>
-            </tr>
-        </tbody>
+                        <td class="border-b border-gray-200 px-6 py-4 text-sm text-gray-600">
+                            {{ $transaction->user->firstName }} {{ $transaction->user->lastName }}
+                        </td>
+                        <td class="border-b border-gray-200 px-6 py-4 text-sm">
+                            <span class="rounded-md bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
+                                {{ $transaction->description }}
+                            </span>
+                        </td>
+                        <td class="border-b border-gray-200 px-6 py-4 text-sm">
+                            <span class="rounded-md bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
+                                {{ $transaction->type }}
+                            </span>
+                        </td>
+                        <td class="border-b border-gray-200 px-6 py-4 text-sm">
+                            ${{ $transaction->amount }}
+                        </td>
+                @endforeach
+
+            </tbody>
         </table>
     </div>
 @endsection
