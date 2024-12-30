@@ -29,8 +29,15 @@ Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home')-
 Route::resource('/admin/plan', PlanController::class)->middleware(['auth', 'verified']);
 Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.user')->middleware(['auth', 'verified']);
 Route::get('/admin/transaction', [AdminTransactionController::class, 'index'])->name('admin.transaction')->middleware(['auth', 'verified']);
-Route::get('/admin/subscription', [AdminSubscriptionController::class, 'index'])->name('admin.subscription')
-    ->middleware(['auth', 'verified']);
+Route::get('/admin/subscription', [AdminSubscriptionController::class, 'index'])->name('admin.subscription')->middleware(['auth', 'verified']);
+
+Route::get('/admin/subscription/{subscription}', [AdminSubscriptionController::class, 'show'])->name('admin.subscription.show')->middleware(['auth', 'verified']);
+
+//disable subscription
+Route::get('/admin/subscription/disable/{subscription}', [AdminSubscriptionController::class, 'disable'])->name('admin.subscription.disable')->middleware(['auth', 'verified']);
+
+//enable subscription
+Route::get('/admin/subscription/enable/{subscription}', [AdminSubscriptionController::class, 'enable'])->name('admin.subscription.enable')->middleware(['auth', 'verified']);
 
 
 // Users Routes
