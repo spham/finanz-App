@@ -13,4 +13,10 @@ class AdminUserController extends Controller
             'users' => User::where('role', '=', 'customer')->orderByDesc('created_at')->get()
         ]);
     }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return back()->with('success', 'Utilisateur supprime avec succes');
+    }
 }

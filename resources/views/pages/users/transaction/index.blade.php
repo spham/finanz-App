@@ -42,6 +42,10 @@
                     </th>
                     <th
                         class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                        Type
+                    </th>
+                    <th
+                        class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
                         Description
                     </th>
                     <th
@@ -67,6 +71,11 @@
                         <td class="border-b border-gray-200 px-6 py-4 text-sm text-gray-600">
                             {{ $transaction->created_at }}
                         </td>
+                        <td class="border-b border-gray-200 px-6 py-4 text-sm">
+                            <span class="rounded-md bg-green-200 px-3 py-1 text-xs font-semibold text-blue-700">
+                                {{ $transaction->type }}
+                            </span>
+                        </td>
                         <td class="border-b border-gray-200 px-6 py-4 text-sm text-gray-600">
                             {{ $transaction->description }}
                         </td>
@@ -76,7 +85,7 @@
                                     {{ $transaction->source->name }}
                                 </span>
                             @else
-                                Pas de compte
+                                Pas de Source
                             @endif
                         </td>
                         <td class="border-b border-gray-200 px-6 py-4 text-sm">
@@ -84,6 +93,8 @@
                                 <span class="rounded-md bg-blue-200 px-3 py-1 text-xs font-semibold text-blue-700">
                                     {{ $transaction->destination->name }}
                                 </span>
+                            @else
+                                Pas de destination
                             @endif
                         </td>
                         <td class="border-b border-gray-200 px-6 py-4 text-sm text-gray-600">

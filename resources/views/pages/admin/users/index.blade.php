@@ -27,10 +27,6 @@
                         class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
                         Statut d'abonnement
                     </th>
-
-                    <th
-                        class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -45,23 +41,14 @@
                         </td>
                         <td class="border-b border-gray-200 px-6 py-4 text-sm">
                             <span class="rounded-md bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
-                                {{-- {{ $user->activeSubscription->name }} --}}
+                                {{ $user->activeSubscription()->plan->name }}
 
                             </span>
                         </td>
                         <td class="border-b border-gray-200 px-6 py-4 text-sm">
                             <span class="rounded-md bg-blue-200 px-3 py-1 text-xs font-semibold text-blue-700">
-                                {{-- {{ $user->activeSubscription->status }} --}}
+                                {{ $user->activeSubscription()->status }}
                             </span>
-                        </td>
-
-                        <td class="border-b border-gray-200 px-6 py-4 text-sm">
-                            <button class="rounded-full bg-blue-200 px-3 py-1 text-sm font-semibold text-green-700">
-                                🚫
-                            </button>
-                            <button class="rounded-full bg-red-200 px-3 py-1 text-sm font-semibold text-green-700">
-                                🗑️
-                            </button>
                         </td>
                     </tr>
                 @endforeach
