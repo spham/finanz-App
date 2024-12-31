@@ -24,7 +24,8 @@ class DasboardController extends Controller
             'monthlyExpenses' => $this->user->monthlyExpenses(),
             'monthlyIncomes' => $this->user->monthlyIncomes(),
             'lastTransactions' => $this->user->transactions()->latest()->take(3)->get(),
-            'lastPocjets' => $this->user->pockets()->latest()->take(3)->get(),
+            'lastPockets' => $this->user->pockets()->latest()->take(3)->get(),
+            'latestCard' => $this->user->cards()->latest()->first(),
         ]);
     }
 }

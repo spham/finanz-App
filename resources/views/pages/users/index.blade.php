@@ -49,73 +49,69 @@
                     <h3 class="text-lg font-semibold text-gray-700">
                         Historique de transactions
                     </h3>
-                    <div>
-                        <select class="rounded-lg border p-2">
-                            <option>Mesuelles</option>
-                            <option>Annuelles</option>
-                        </select>
-                    </div>
                 </div>
 
                 <table class="mt-4 w-full min-w-[600px]">
                     <thead>
-                        <tr class="text-gray-500">
-                            <th class="p-3 text-left">Nom</th>
-                            <th class="p-3 text-left">Transaction ID</th>
-                            <th class="p-3 text-left">Date</th>
-                            <th class="p-3 text-left">Montant</th>
-                            <th class="p-3 text-left">Type</th>
-                            <th class="p-3 text-left">Status</th>
+                        <tr>
+                            <th
+                                class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                                Date
+                            </th>
+                            <th
+                                class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                                Type
+                            </th>
+                            <th
+                                class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                                Source
+                            </th>
+                            <th
+                                class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                                Destination
+                            </th>
+                            <th
+                                class="border-b-2 border-gray-300 bg-gray-100 px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
+                                Monant
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Row 1 -->
-                        <tr class="border-b">
-                            <td class="flex items-center p-3">
-                                <img src="https://via.placeholder.com/40" alt="Profile"
-                                    class="mr-2 h-8 w-8 rounded-full" />
-                                <span>Anastasia</span>
-                            </td>
-                            <td class="p-3">FVB-092412</td>
-                            <td class="p-3">Sep 29, 2023</td>
-                            <td class="p-3">$12,200</td>
-                            <td class="p-3">Gain</td>
-                            <td class="p-3">
-                                <span class="rounded-full bg-green-100 p-2 text-green-500">● Succes</span>
-                            </td>
-                        </tr>
+                        @foreach ($lastTransactions as $transaction)
+                            <tr>
+                                <td class="border-b border-gray-200 px-6 py-4 text-sm text-gray-600">
+                                    {{ $transaction->created_at }}
+                                </td>
+                                <td class="border-b border-gray-200 px-6 py-4 text-sm">
+                                    <span class="rounded-md bg-green-200 px-3 py-1 text-xs font-semibold text-blue-700">
+                                        {{ $transaction->type }}
+                                    </span>
+                                </td>
 
-                        <!-- Row 2 -->
-                        <tr class="border-b">
-                            <td class="flex items-center p-3">
-                                <img src="https://via.placeholder.com/40" alt="Profile"
-                                    class="mr-2 h-8 w-8 rounded-full" />
-                                <span>Daniel</span>
-                            </td>
-                            <td class="p-3">DEW-076213</td>
-                            <td class="p-3">Sep 16, 2023</td>
-                            <td class="p-3">$6,640</td>
-                            <td class="p-3">Depense</td>
-                            <td class="p-3">
-                                <span class="rounded-full bg-red-100 p-2 text-red-500">● En attente</span>
-                            </td>
-                        </tr>
-
-                        <!-- Row 3 -->
-                        <tr>
-                            <td class="flex items-center p-3">
-                                <img src="https://via.placeholder.com/40" alt="Profile"
-                                    class="mr-2 h-8 w-8 rounded-full" />
-                                <span>Monica</span>
-                            </td>
-                            <td class="p-3">KMN-072309</td>
-                            <td class="p-3">Oct 23, 2023</td>
-                            <td class="p-3">$23,450</td>
-                            <td class="p-3">Depense</td>
-                            <td class="p-3">
-                                <span class="rounded-full bg-green-100 p-2 text-green-500">● Succes</span>
-                            </td>
-                        </tr>
+                                <td class="border-b border-gray-200 px-6 py-4 text-sm">
+                                    @if ($transaction->source)
+                                        <span
+                                            class="rounded-md bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
+                                            {{ $transaction->source->name }}
+                                        </span>
+                                    @else
+                                        Pas de Source
+                                    @endif
+                                </td>
+                                <td class="border-b border-gray-200 px-6 py-4 text-sm">
+                                    @if ($transaction->destination)
+                                        <span class="rounded-md bg-blue-200 px-3 py-1 text-xs font-semibold text-blue-700">
+                                            {{ $transaction->destination->name }}
+                                        </span>
+                                    @else
+                                        Pas de destination
+                                    @endif
+                                </td>
+                                <td class="border-b border-gray-200 px-6 py-4 text-sm text-gray-600">
+                                    {{ number_format($transaction->amount, 2, '.', ',') }}
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -139,15 +135,15 @@
                             </div>
                         </div>
                         <div class="mt-2 text-2xl text-white">
-                            **** **** **** 7628
+                            **** **** **** {{ substr($latestCard->cardNumber, -4) }}
                         </div>
                         <div class="mt-4 flex justify-between">
-                            <span>Titulaire</span>
+                            <span>{{ $latestCard->name }}</span>
                             <span>Date d'expiration</span>
                         </div>
                         <div class="flex justify-between text-white">
-                            <span>Lee Seaba</span>
-                            <span>08/24</span>
+                            <span>{{ $latestCard->name }}</span>
+                            <span>{{ \Carbon\Carbon::parse($latestCard->expiry_date)->format('m/y') }}</span>
                         </div>
                     </div>
                     <!-- Ajoutez d'autres cartes de la même manière -->
@@ -175,47 +171,27 @@
             <div class="rounded-lg bg-white p-6 shadow">
                 <h3 class="text-lg font-semibold text-gray-700">Poches</h3>
 
-                <div class="mt-4">
-                    <div class="flex items-center justify-between">
-                        <span class="font-medium text-gray-700">Education</span>
-                        <span class="text-sm text-gray-500">Objectif: $50,000</span>
+                @foreach ($lastPockets as $pocket)
+                    <div class="mt-4">
+                        <div class="flex items-center justify-between">
+                            <span class="font-medium text-gray-700">{{ $pocket->name }}</span>
+                            <span class="text-sm text-gray-500">Objectif:
+                                ${{ number_format($pocket->balanceGoal, 2, '.', ',') }}
+                            </span>
+                        </div>
+                        <div class="mt-1 flex items-center justify-between">
+                            <span
+                                class="text-lg font-semibold text-blue-500">${{ number_format($pocket->balance, 2, '.', ',') }}
+                            </span>
+                            <span class="text-sm text-gray-500">
+                                {{ $pocket->progression }}%
+                            </span>
+                        </div>
+                        <div class="mt-2 h-2 w-full rounded-full bg-gray-200">
+                            <div class="h-2 rounded-full bg-blue-500" style="width: {{ $pocket->progression }}%"></div>
+                        </div>
                     </div>
-                    <div class="mt-1 flex items-center justify-between">
-                        <span class="text-lg font-semibold text-blue-500">$25,000</span>
-                        <span class="text-sm text-gray-500">Virement Mensuels: $500</span>
-                    </div>
-                    <div class="mt-2 h-2 w-full rounded-full bg-gray-200">
-                        <div class="h-2 rounded-full bg-blue-500" style="width: 50%"></div>
-                    </div>
-                </div>
-
-                <div class="mt-4">
-                    <div class="flex items-center justify-between">
-                        <span class="font-medium text-gray-700">Voyage</span>
-                        <span class="text-sm text-gray-500">Objectif: $40,000</span>
-                    </div>
-                    <div class="mt-1 flex items-center justify-between">
-                        <span class="text-lg font-semibold text-purple-500">$5,000</span>
-                        <span class="text-sm text-gray-500">Virement Mensuels: $100</span>
-                    </div>
-                    <div class="mt-2 h-2 w-full rounded-full bg-gray-200">
-                        <div class="h-2 rounded-full bg-purple-500" style="width: 12.5%"></div>
-                    </div>
-                </div>
-
-                <div class="mt-4">
-                    <div class="flex items-center justify-between">
-                        <span class="font-medium text-gray-700">Fonds d'urgence</span>
-                        <span class="text-sm text-gray-500">Objectif: $35,000</span>
-                    </div>
-                    <div class="mt-1 flex items-center justify-between">
-                        <span class="text-lg font-semibold text-red-500">$15,000</span>
-                        <span class="text-sm text-gray-500">Virement Mensuels: $100</span>
-                    </div>
-                    <div class="mt-2 h-2 w-full rounded-full bg-gray-200">
-                        <div class="h-2 rounded-full bg-red-500" style="width: 42.86%"></div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
