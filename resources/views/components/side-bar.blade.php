@@ -6,7 +6,8 @@
     </button>
     <h1 class="mb-6 text-2xl font-bold text-blue-600">FinanzApp</h1>
     <nav class="flex-grow space-y-4">
-        <a href="/" class="flex items-center space-x-2 text-gray-700">
+        <a href="{{ $currentUser->role == 'admin' ? route('admin.home') : route('users.home') }}"
+            class="flex items-center space-x-2 text-gray-700">
             🏠
             <span>Dashboard</span>
         </a>

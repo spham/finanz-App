@@ -36,18 +36,20 @@
     <!-- Cards Section -->
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         @foreach ($cards as $card)
-            <div class="rounded-lg bg-white p-6 shadow-lg">
+            {{-- <div class="rounded-lg bg-white p-6 shadow-lg"> --}}
+            <div class="card rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 p-4 text-white shadow-lg">
                 <h2 class="mb-4 text-lg font-semibold">{{ $card->name }}</h2>
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-gray-600">**** **** **** {{ substr($card->cardNumber, -4) }}</p>
-                        <p class="text-sm text-gray-400">Expires:
+                        <p class="text-sm text-gray-700">Expire:
                             {{ \Carbon\Carbon::parse($card->expiry_date)->format('m/y') }}</p>
                     </div>
-                    <span class="text-bold text-lg">${{ $card->balance }}</span>
+                    <span class="text-bold text-lg">${{ number_format($card->balance, 2, '.', ',') }}</span>
                 </div>
                 <div class="mt-4 flex justify-end space-x-2">
-                    <a href="{{ route('card.edit', $card) }}" class="text-blue-600 hover:text-blue-700"
+                    <a href="{{ route('card.edit', $card) }}"
+                        class="rounded border border-blue-600 px-2 py-1 text-blue-700 hover:text-blue-800"
                         aria-label="Edit Card">
                         Modifier
                     </a>
@@ -55,7 +57,8 @@
                         @csrf
                         @method('DELETE')
 
-                        <button type="submit" class="text-red-600 hover:text-red-700">Supprimer</button>
+                        <button type="submit"
+                            class="rounded border border-red-600 px-2 py-1 text-red-600 hover:text-red-700">Supprimer</button>
                     </form>
                 </div>
             </div>

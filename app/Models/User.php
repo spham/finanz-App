@@ -81,4 +81,85 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class, 'userId', 'id');
     }
+
+    //calculate the total amount of money in the user's pockets and cards
+    public function totalAmount()
+    {
+        $total = 0;
+        foreach ($this->pockets as $pocket) {
+            $total += $pocket->balance;
+        }
+
+        foreach ($this->cards as $card) {
+            $total += $card->balance;
+        }
+
+        return $total;
+    }
+
+    //calculate current month's expenses
+    public function currentMonthExpenses()
+    {
+        $currentMonthExpenses = 0;
+
+        foreach ($this->transactions as $transaction) {
+            if ($transaction->type == Transaction::TYPE_TRANSACTION_EXPENSE && $transaction->created_at->format('Y-m') == now()->format('Y-m')) {
+                $currentMonthExpenses += $transaction->amount;
+            }
+        }
+
+        return $currentMonthExpenses;
+    }
+
+    //calculate current month's incomes
+    public function currentMonthIncomes()
+    {
+        $currentMonthIncomes = 0;
+
+        foreach ($this->transactions as $transaction) {
+            if ($transaction->type == Transaction::TYPE_TRANSACTION_INCOME && $transaction->created_at->format('Y-m') == now()->format('Y-m')) {
+                $currentMonthIncomes += $transaction->amount;
+            }
+        }
+
+        return $currentMonthIncomes;
+    }
+
+
+    //calculate monthly expenses amount for the current year
+    public function monthlyExpenses()
+    {
+        $monthlyExpenses = [];
+
+        foreach ($this->transactions as $transaction) {
+            if ($transaction->type == Transaction::TYPE_TRANSACTION_EXPENSE && $transaction->created_at->format('Y') == now()->format('Y')) {
+                $month = $transaction->created_at->format('Y-m');
+                if (!isset($monthlyExpenses[$month])) {
+                    $monthlyExpenses[$month] = 0;
+                }
+                $monthlyExpenses[$month] += $transaction->amount;
+            }
+        }
+
+        return $monthlyExpenses;
+    }
+
+    //calculate incomes amount by month
+    public function monthlyIncomes()
+    {
+        $monthlyIncomes = [];
+
+        foreach ($this->transactions as $transaction) {
+            if ($transaction->type == Transaction::TYPE_TRANSACTION_INCOME && $transaction->created_at->format('Y') == now()->format('Y')) {
+                $month = $transaction->created_at->format('Y-m');
+                if (!isset($monthlyIncomes[$month])) {
+                    $monthlyIncomes[$month] = 0;
+                }
+                $monthlyIncomes[$month] += $transaction->amount;
+            }
+        }
+
+        return $monthlyIncomes;
+    }
+
 }
