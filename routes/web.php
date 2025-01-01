@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\User\CardController;
 use App\Http\Controllers\User\DasboardController;
 use App\Http\Controllers\User\PocketController;
@@ -50,6 +51,8 @@ Route::resource('/card', CardController::class)->middleware(['auth', 'verified']
 Route::resource('/pocket', PocketController::class)->middleware(['auth', 'verified']);
 
 Route::resource('/transaction', TransactionController::class)->middleware(['auth', 'verified']);
+
+Route::get('/statistic', [StatisticController::class, 'index'])->name('users.statistic')->middleware(['auth', 'verified']);
 
 // Checkout routes
 Route::get('/checkout/plan/{plan}', [CheckoutController::class, 'checkout'])->name('plan.checkout')->middleware(['auth', 'verified']);

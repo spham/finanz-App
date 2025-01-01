@@ -76,7 +76,7 @@ class PocketController extends Controller
     {
         $pocket->update($request->validated());
 
-        $pocket->progression = $pocket->calculateProgression();
+        $pocket->calculateProgression();
         $pocket->save();
 
         return to_route('pocket.index')->with('success', 'Poche modifiee avec succes');

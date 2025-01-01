@@ -43,7 +43,7 @@
                         <p class="mb-4 text-sm text-gray-500">Échéance : {{ $pocket->dueDate }}</p>
                     </div>
                     <span
-                        class="text-bold {{ $pocket->isBlocked == 1 ? 'bg-red-400' : 'bg-green-400' }} rounded-md p-2 text-sm text-white">{{ $pocket->isBlocked == 1 ? 'Bloque' : 'Ouvert' }}</span>
+                        class="text-bold {{ $pocket->isBlocked == 0 ? 'bg-red-400' : 'bg-green-400' }} rounded-md p-2 text-sm text-white">{{ $pocket->isBlocked == 0 ? 'Bloque' : 'Ouvert' }}</span>
                 </div>
                 <div class="z-10 pt-1">
                     <div class="mb-2 flex items-center justify-between">
@@ -59,9 +59,9 @@
                     </div>
                 </div>
                 <div class="mt-4 flex justify-between">
-                    <button class="rounded-md px-3 text-green-600 hover:bg-green-200" onclick="openLoadPocketModal()">
+                    <a href="{{ route('transaction.create') }}" class="rounded-md px-3 text-green-600 hover:bg-green-200">
                         Chager la Poche
-                    </button>
+                    </a>
                     <a href="{{ route('pocket.edit', $pocket) }}" class="rounded-md px-3 text-blue-600 hover:bg-blue-200">
                         Modifier
                     </a>

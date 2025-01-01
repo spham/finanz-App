@@ -144,6 +144,41 @@ class User extends Authenticatable
         return $monthlyExpenses;
     }
 
+    //current Month expenses by description => amount
+    public function currentMonthExpensesByDescription()
+    {
+        $currentMonthExpenses = [];
+
+        foreach ($this->transactions as $transaction) {
+            if ($transaction->type == Transaction::TYPE_TRANSACTION_EXPENSE && $transaction->created_at->format('Y-m') == now()->format('Y-m')) {
+                if (!isset($currentMonthExpenses[$transaction->description])) {
+                    $currentMonthExpenses[$transaction->description] = 0;
+                }
+                $currentMonthExpenses[$transaction->description] += $transaction->amount;
+            }
+        }
+
+        return $currentMonthExpenses;
+    }
+
+    //current Month incomes by description => amount
+    public function currentMonthIncomesByDescription()
+    {
+        $currentMonthIncomes = [];
+
+        foreach ($this->transactions as $transaction) {
+            if ($transaction->type == Transaction::TYPE_TRANSACTION_INCOME && $transaction->created_at->format('Y-m') == now()->format('Y-m')) {
+                if (!isset($currentMonthIncomes[$transaction->description])) {
+                    $currentMonthIncomes[$transaction->description] = 0;
+                }
+                $currentMonthIncomes[$transaction->description] += $transaction->amount;
+            }
+        }
+
+        return $currentMonthIncomes;
+    }
+
+
     //calculate incomes amount by month
     public function monthlyIncomes()
     {
@@ -160,6 +195,18 @@ class User extends Authenticatable
         }
 
         return $monthlyIncomes;
+    }
+
+    //proges des poches : name => progress %
+    public function pocketsProgress()
+    {
+        $pocketsProgress = [];
+
+        foreach ($this->pockets()->latest()->take(3)->get() as $pocket) {
+            $pocketsProgress[$pocket->name] = $pocket->progression;
+        }
+
+        return $pocketsProgress;
     }
 
 }

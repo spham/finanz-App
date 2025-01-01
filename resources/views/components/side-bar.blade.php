@@ -42,7 +42,7 @@
                 💱
                 <span>Transactions</span>
             </a>
-            <a href="./transactions/transaction.html" class="flex items-center space-x-2 text-gray-700">
+            <a href="{{ route('users.statistic') }}" class="flex items-center space-x-2 text-gray-700">
                 📈
                 <span>Statistics</span>
             </a>
