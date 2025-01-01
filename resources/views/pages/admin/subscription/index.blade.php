@@ -45,7 +45,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Transaction Row 1 -->
+                <!-- Transaction Row  -->
                 @foreach ($subscriptions as $subscription)
                     <tr>
 

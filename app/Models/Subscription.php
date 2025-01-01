@@ -55,4 +55,11 @@ class Subscription extends Model
         // Vérifie si le nombre actuel de poche est inférieur au nombre maximum autorisé par le plan
         return $this->pockectCount < $this->plan->maxPocket;
     }
+
+    //count total subscription
+    public static function totalSubscriptions()
+    {
+        return Subscription::where('status', Subscription::STATUS_ACTIVE)->count();
+    }
+
 }
