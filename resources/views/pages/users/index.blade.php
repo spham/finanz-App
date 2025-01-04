@@ -149,7 +149,7 @@
                     <!-- Ajoutez d'autres cartes de la même manière -->
                 </div>
                 <div class="add-card-btn mt-4">
-                    <a href="./cards/edit-card.html"
+                    <a href="{{ route('card.create') }}"
                         class="w-full rounded-lg bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600">
                         Ajouter une carte
                     </a>
@@ -160,7 +160,7 @@
             <div class="rounded-lg bg-white p-4 shadow">
                 <h3 class="text-gray-700">Transactions Rapide</h3>
                 <div class="mt-4">
-                    <a href="./transactions/edit-transaction.html"
+                    <a href="{{ route('transaction.create') }}"
                         class="w-full rounded-lg bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600">
                         Ajouter une transaction
                     </a>
