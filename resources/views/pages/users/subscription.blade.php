@@ -82,9 +82,9 @@
                             </span>
                         </td>
                         <td class="border-b border-gray-200 px-6 py-4 text-sm">
-                            <button class="rounded-full bg-blue-200 px-3 py-1 text-sm font-semibold text-green-700">
+                            {{-- <button class="rounded-full bg-blue-200 px-3 py-1 text-sm font-semibold text-green-700">
                                 💷 Facture
-                            </button>
+                            </button> --}}
                             <button class="rounded-full bg-red-200 px-3 py-1 text-sm font-semibold text-red-700">
                                 📝 Annuler
                             </button>

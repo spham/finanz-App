@@ -135,15 +135,15 @@
                             </div>
                         </div>
                         <div class="mt-2 text-2xl text-white">
-                            **** **** **** {{ substr($latestCard->cardNumber, -4) }}
+                            **** **** **** {{ substr($latestCard?->cardNumber, -4) }}
                         </div>
                         <div class="mt-4 flex justify-between">
-                            <span>{{ $latestCard->name }}</span>
+                            <span>{{ $latestCard?->name }}</span>
                             <span>Date d'expiration</span>
                         </div>
                         <div class="flex justify-between text-white">
-                            <span>{{ $latestCard->name }}</span>
-                            <span>{{ \Carbon\Carbon::parse($latestCard->expiry_date)->format('m/y') }}</span>
+                            <span>{{ $latestCard?->name }}</span>
+                            <span>{{ \Carbon\Carbon::parse($latestCard?->expiry_date)->format('m/y') }}</span>
                         </div>
                     </div>
                     <!-- Ajoutez d'autres cartes de la même manière -->

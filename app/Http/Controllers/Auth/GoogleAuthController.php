@@ -47,16 +47,18 @@ class GoogleAuthController extends Controller
                 [
                     'firstName' => $user->user['given_name'],
                     'lastName' => $user->user['family_name'],
+                    // 'image' => $user->$user->getAvatar(),
                     'password' => bcrypt(Str::random(8)),
                     'email_verified_at' => now()
                 ]
             );
 
+            //Refacto this by creating a service
             $startDate = now();
             $endDate = $startDate->copy()->addYear();
 
             //did after
-            $freePlan = Plan::where('duration', Plan::FREE_ACCESS)->first();
+            $freePlan = Plan::where('duration', '=', Plan::FREE_ACCESS)->first();
             Subscription::create([
                 'userId' => $newUser->id,
                 'planId' => $freePlan->id,

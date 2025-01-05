@@ -45,11 +45,14 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+
+        //Reafacto this : by creation a service
+
         $startDate = now();
         $endDate = $startDate->copy()->addYear();
 
         //did after
-        $freePlan = Plan::where('duration', Plan::FREE_ACCESS)->first();
+        $freePlan = Plan::where('duration', '=', Plan::FREE_ACCESS)->first();
         Subscription::create([
             'userId' => $user->id,
             'planId' => $freePlan->id,

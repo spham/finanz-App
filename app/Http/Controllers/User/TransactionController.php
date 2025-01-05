@@ -44,155 +44,6 @@ class TransactionController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    // public function store(StoreTransactionRequest $request)
-    // {
-    //     // dd($request->validated(), $request->source_type, $request->destination_type, $request->all());
-
-    //     // A refacto
-
-    //     if ($request->source_type === 'card') {
-    //         $source = Card::find($request->source_id);
-
-    //         if (!$source && $request->source_id) {
-    //             return back()->with('error', 'Erreur source non disponible');
-    //         }
-    //     } else if ($request->source_type === 'pocket') {
-    //         $source = Pocket::find($request->source_id);
-
-    //         if (!$source && $request->source_id) {
-    //             return back()->with('error', 'Erreur source non disponible');
-    //         }
-    //     } else {
-    //         $source = null;
-    //     }
-
-    //     // A refacto
-    //     if ($request->destination_type === 'card') {
-    //         $destination = Card::find($request->destination_id);
-
-    //         if (!$destination && $request->destination_id) {
-    //             return back()->with('error', 'Erreur source non disponible');
-    //         }
-    //     } else if ($request->destination_type === 'pocket') {
-    //         $destination = Pocket::find($request->destination_id);
-
-    //         if (!$destination && $request->destination_id) {
-    //             return back()->with('error', 'Erreur source non disponible');
-    //         }
-    //     } else {
-    //         $destination = null;
-    //     }
-
-    //     DB::transaction(function () use ($request, $source, $destination) {
-
-    //         $this->user->transactions()->create([
-    //             'type' => $request->type,
-    //             'source_id' => $source ? $source->id : null,
-    //             'destination_id' => $destination ? $destination->id : null,
-    //             'description' => $request->description,
-    //             'amount' => $request->amount
-    //         ]);
-
-    //         if ($source) {
-    //             $source->balance -= $request->amount;
-
-    // if ($request->destination_type === 'pocket') {
-    //     $destination->calculateProgression();
-    // }
-
-    //             $source->update();
-    //         }
-
-    //         if ($destination) {
-    //             $destination->balance += $request->amount;
-
-    //             if ($request->destination_type === 'pocket') {
-    //                 $destination->calculateProgression();
-    //             }
-
-    //             $destination->update();
-    //         }
-
-    //         $this->user->activeSubscription()->increment('transactionCount');
-    //     });
-
-    //     return to_route('transaction.index')->with('success', 'Transaction ajoute avec succes');
-
-    // }
-
-    // public function store(StoreTransactionRequest $request)
-    // {
-    //     // Obtenez les entités source et destination
-    //     $source = $this->getEntity($request->source_type, $request->source_id, 'source');
-    //     $destination = $this->getEntity($request->destination_type, $request->destination_id, 'destination');
-
-    //     DB::transaction(function () use ($request, $source, $destination) {
-    //         // Créer la transaction
-    //         $this->user->transactions()->create([
-    //             'type' => $request->type,
-    //             'source_id' => $source?->id,
-    //             'source_type' => $source ? get_class($source) : null,
-    //             'destination_id' => $destination?->id,
-    //             'destination_type' => $destination ? get_class($destination) : null,
-    //             'description' => $request->description,
-    //             'amount' => $request->amount
-    //         ]);
-
-    //         // Mettre à jour le solde de la source
-    //         if ($source) {
-    //             $source->balance -= $request->amount;
-
-    //             if ($request->destination_type === 'pocket') {
-    //                 $destination->calculateProgression();
-    //             }
-
-    //             $source->update();
-    //         }
-
-    //         // Mettre à jour le solde de la destination
-    //         if ($destination) {
-    //             $destination->balance += $request->amount;
-
-    //             // Calculer la progression pour les poches si nécessaire
-    //             if ($request->destination_type === 'pocket') {
-    //                 $destination->calculateProgression();
-    //             }
-
-    //             $destination->update();
-    //         }
-
-    //         // Incrémenter le compteur de transactions de l'utilisateur
-    //         $this->user->activeSubscription()->increment('transactionCount');
-    //     });
-
-    //     return to_route('transaction.index')->with('success', 'Transaction ajoutée avec succès');
-    // }
-
-    /**
-     * Obtenir une entité Card ou Pocket en fonction du type et de l'ID.
-     */
-    // private function getEntity(?string $type, ?int $id, string $field)
-    // {
-    //     if (!$id) {
-    //         return null;
-    //     }
-
-    //     $entity = null;
-    //     if ($type === 'card') {
-    //         $entity = Card::find($id);
-    //     } elseif ($type === 'pocket') {
-    //         $entity = Pocket::find($id);
-    //     }
-
-    //     if (!$entity) {
-    //         abort(400, "Erreur: " . $field . " non disponible ou invalide.");
-    //     }
-
-    //     return $entity;
-    // }
 
     public function store(StoreTransactionRequest $request)
     {
@@ -209,6 +60,7 @@ class TransactionController extends Controller
             ]);
 
             // Lier les entités source et destination à la transaction
+            //TODO Refactor there with 225th line of code
             if ($source) {
                 $transaction->source()->associate($source);
             }
@@ -251,21 +103,37 @@ class TransactionController extends Controller
     /**
      * Obtenir une entité Card ou Pocket en fonction du type et de l'ID.
      */
-    private function getEntity(?string $type, ?int $id)
+    // private function getEntity(?string $type, ?int $id)
+    // {
+    //     if (!$id || !$type) {
+    //         return null;
+    //     }
+
+    //     // Utiliser un switch pour rendre plus extensible si vous avez plusieurs types
+    //     switch ($type) {
+    //         case 'card':
+    //             return Card::find($id);
+    //         case 'pocket':
+    //             return Pocket::find($id);
+    //         default:
+    //             abort(400, "Erreur: Entité non valide.");
+    //     }
+    // }
+
+    /**
+     * Récupère une entité (Card ou Pocket) en fonction de son type et de son ID.
+     */
+    private function getEntity(?string $type, ?int $id): ?object
     {
-        if (!$id || !$type) {
+        if (!$type || !$id) {
             return null;
         }
 
-        // Utiliser un switch pour rendre plus extensible si vous avez plusieurs types
-        switch ($type) {
-            case 'card':
-                return Card::find($id);
-            case 'pocket':
-                return Pocket::find($id);
-            default:
-                abort(400, "Erreur: Entité non valide.");
-        }
+        return match ($type) {
+            'card' => Card::findOrFail($id),
+            'pocket' => Pocket::findOrFail($id),
+            default => throw new \InvalidArgumentException("Type d'entité non valide : $type"),
+        };
     }
 
 
@@ -310,6 +178,7 @@ class TransactionController extends Controller
             ]);
 
             // Lier les entités source et destination à la transaction
+            //TODO Refactor there with the 326th line
             if ($source) {
                 $transaction->source()->associate($source);
             }

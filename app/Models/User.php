@@ -52,8 +52,14 @@ class User extends Authenticatable
 
     public function imageUrl()
     {
+        //put condition to check if the image is null or not then return the image : https://via.placeholder.com/150
         return Storage::url($this->image);
     }
+
+    // public function imageUrl()
+    // {
+    //     return $this->image ? Storage::url($this->image) : asset('images/default-user.png');
+    // }
 
     public function subscriptions()
     {
@@ -83,46 +89,63 @@ class User extends Authenticatable
     }
 
     //calculate the total amount of money in the user's pockets and cards
+    // public function totalAmount()
+    // {
+    //     $total = 0;
+    //     foreach ($this->pockets as $pocket) {
+    //         $total += $pocket->balance;
+    //     }
+
+    //     foreach ($this->cards as $card) {
+    //         $total += $card->balance;
+    //     }
+
+    //     return $total;
+    // }
+
     public function totalAmount()
     {
-        $total = 0;
-        foreach ($this->pockets as $pocket) {
-            $total += $pocket->balance;
-        }
-
-        foreach ($this->cards as $card) {
-            $total += $card->balance;
-        }
-
-        return $total;
+        return $this->pockets()->sum('balance') + $this->cards()->sum('balance');
     }
 
     //calculate current month's expenses
     public function currentMonthExpenses()
     {
-        $currentMonthExpenses = 0;
+        // $currentMonthExpenses = 0;
 
-        foreach ($this->transactions as $transaction) {
-            if ($transaction->type == Transaction::TYPE_TRANSACTION_EXPENSE && $transaction->created_at->format('Y-m') == now()->format('Y-m')) {
-                $currentMonthExpenses += $transaction->amount;
-            }
-        }
+        // foreach ($this->transactions as $transaction) {
+        //     if ($transaction->type == Transaction::TYPE_TRANSACTION_EXPENSE && $transaction->created_at->format('Y-m') == now()->format('Y-m')) {
+        //         $currentMonthExpenses += $transaction->amount;
+        //     }
+        // }
 
-        return $currentMonthExpenses;
+        // return $currentMonthExpenses;
+
+        return $this->transactions()
+            ->where('type', Transaction::TYPE_TRANSACTION_EXPENSE)
+            ->whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->sum('amount');
     }
 
     //calculate current month's incomes
     public function currentMonthIncomes()
     {
-        $currentMonthIncomes = 0;
+        // $currentMonthIncomes = 0;
 
-        foreach ($this->transactions as $transaction) {
-            if ($transaction->type == Transaction::TYPE_TRANSACTION_INCOME && $transaction->created_at->format('Y-m') == now()->format('Y-m')) {
-                $currentMonthIncomes += $transaction->amount;
-            }
-        }
+        // foreach ($this->transactions as $transaction) {
+        //     if ($transaction->type == Transaction::TYPE_TRANSACTION_INCOME && $transaction->created_at->format('Y-m') == now()->format('Y-m')) {
+        //         $currentMonthIncomes += $transaction->amount;
+        //     }
+        // }
 
-        return $currentMonthIncomes;
+        // return $currentMonthIncomes;
+
+        return $this->transactions()
+            ->where('type', Transaction::TYPE_TRANSACTION_INCOME)
+            ->whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->sum('amount');
     }
 
 
@@ -147,35 +170,59 @@ class User extends Authenticatable
     //current Month expenses by description => amount
     public function currentMonthExpensesByDescription()
     {
-        $currentMonthExpenses = [];
+        // $currentMonthExpenses = [];
 
-        foreach ($this->transactions as $transaction) {
-            if ($transaction->type == Transaction::TYPE_TRANSACTION_EXPENSE && $transaction->created_at->format('Y-m') == now()->format('Y-m')) {
-                if (!isset($currentMonthExpenses[$transaction->description])) {
-                    $currentMonthExpenses[$transaction->description] = 0;
-                }
-                $currentMonthExpenses[$transaction->description] += $transaction->amount;
-            }
-        }
+        // foreach ($this->transactions as $transaction) {
+        //     if ($transaction->type == Transaction::TYPE_TRANSACTION_EXPENSE && $transaction->created_at->format('Y-m') == now()->format('Y-m')) {
+        //         if (!isset($currentMonthExpenses[$transaction->description])) {
+        //             $currentMonthExpenses[$transaction->description] = 0;
+        //         }
+        //         $currentMonthExpenses[$transaction->description] += $transaction->amount;
+        //     }
+        // }
 
-        return $currentMonthExpenses;
+        // return $currentMonthExpenses;
+
+        // dd($this->transactions()
+        //     ->selectRaw('description, SUM(amount) as total')
+        //     ->where('type', Transaction::TYPE_TRANSACTION_EXPENSE)
+        //     ->whereYear('created_at', now()->year)
+        //     ->whereMonth('created_at', now()->month)
+        //     ->groupBy('description')
+        //     ->pluck('total', 'description'));
+
+        return $this->transactions()
+            ->selectRaw('description, SUM(amount) as total')
+            ->where('type', Transaction::TYPE_TRANSACTION_EXPENSE)
+            ->whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->groupBy('description')
+            ->pluck('total', 'description')->toArray();
     }
 
     //current Month incomes by description => amount
     public function currentMonthIncomesByDescription()
     {
-        $currentMonthIncomes = [];
+        // $currentMonthIncomes = [];
 
-        foreach ($this->transactions as $transaction) {
-            if ($transaction->type == Transaction::TYPE_TRANSACTION_INCOME && $transaction->created_at->format('Y-m') == now()->format('Y-m')) {
-                if (!isset($currentMonthIncomes[$transaction->description])) {
-                    $currentMonthIncomes[$transaction->description] = 0;
-                }
-                $currentMonthIncomes[$transaction->description] += $transaction->amount;
-            }
-        }
+        // foreach ($this->transactions as $transaction) {
+        //     if ($transaction->type == Transaction::TYPE_TRANSACTION_INCOME && $transaction->created_at->format('Y-m') == now()->format('Y-m')) {
+        //         if (!isset($currentMonthIncomes[$transaction->description])) {
+        //             $currentMonthIncomes[$transaction->description] = 0;
+        //         }
+        //         $currentMonthIncomes[$transaction->description] += $transaction->amount;
+        //     }
+        // }
 
-        return $currentMonthIncomes;
+        // return $currentMonthIncomes;
+
+        return $this->transactions()
+            ->selectRaw('description, SUM(amount) as total')
+            ->where('type', Transaction::TYPE_TRANSACTION_INCOME)
+            ->whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->groupBy('description')
+            ->pluck('total', 'description')->toArray();
     }
 
 
