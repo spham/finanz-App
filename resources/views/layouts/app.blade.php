@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,27 +15,29 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
+
     <body class="bg-gray-100">
-        <div class="flex flex-col lg:flex-row min-h-screen">
+        <div class="flex min-h-screen flex-col lg:flex-row">
             @include('components.side-bar')
 
-        <!-- Main Content -->
-        <main class="flex-1 p-6 lg:ml-64">
-            <!-- Toggle Button for Mobile -->
-            @include('components.nav-bar')
+            <!-- Main Content -->
+            <main class="flex-1 p-6 lg:ml-64">
+                <!-- Toggle Button for Mobile -->
+                @include('components.nav-bar')
 
-            @yield('contents')
-        </main>
-    </div>
+                @yield('contents')
+            </main>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-      function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar')
-        sidebar.classList.toggle('-translate-x-full')
-      }
-    </script>
-    
-    @yield('scripts')
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            function toggleSidebar() {
+                const sidebar = document.getElementById('sidebar')
+                sidebar.classList.toggle('-translate-x-full')
+            }
+        </script>
+
+        @yield('scripts')
     </body>
+
 </html>
