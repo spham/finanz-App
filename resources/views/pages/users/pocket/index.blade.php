@@ -77,42 +77,4 @@
             </div>
         @endforeach
     </div>
-
-
-    <!-- Load Pocket Modal -->
-    <div id="loadPocketModal" class="z-100 fixed inset-0 flex hidden items-center justify-center bg-black bg-opacity-50">
-        <div class="w-1/3 rounded-lg bg-white p-6">
-            <h2 class="mb-4 text-xl font-bold">Recharger une Poche</h2>
-
-            <select class="mb-4 w-full rounded border border-gray-300 p-2">
-                <option>Card A</option>
-                <option>Card A</option>
-                <option>Card C</option>
-            </select>
-
-            <input type="number" placeholder="Objectif" value="100" min="100"
-                class="mb-4 w-full rounded border border-gray-300 p-2" />
-
-            <button class="w-full rounded bg-gray-700 px-4 py-2 font-bold text-white hover:bg-gray-600">
-                Charger
-            </button>
-            <button class="mt-2 w-full rounded bg-gray-300 p-2 text-gray-700" onclick="closeLoadPocketModal()">
-                Annuler
-            </button>
-        </div>
-    </div>
-@endsection
-
-@section('scripts')
-    <script>
-        function openLoadPocketModal() {
-            const modal = document.getElementById('loadPocketModal')
-            modal.classList.remove('hidden')
-        }
-
-        function closeLoadPocketModal() {
-            const modal = document.getElementById('loadPocketModal')
-            modal.classList.add('hidden')
-        }
-    </script>
 @endsection

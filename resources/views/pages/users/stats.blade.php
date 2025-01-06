@@ -44,11 +44,6 @@
 
 @section('scripts')
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar')
-            sidebar.classList.toggle('-translate-x-full')
-        }
-
         // Configuration du graphique Revenus vs Dépenses
         const incomeExpenseCtx = document
             .getElementById('incomeExpenseChart')

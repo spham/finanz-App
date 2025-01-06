@@ -126,28 +126,3 @@
         </div>
     </div>
 @endsection
-
-@section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const updateHiddenField = (selectElement, hiddenField) => {
-                const selectedOption = selectElement.options[selectElement.selectedIndex];
-                hiddenField.value = selectedOption.dataset.type || '';
-            };
-
-            const sourceSelect = document.getElementById('source');
-            const sourceTypeInput = document.getElementById('source_type');
-            const destinationSelect = document.getElementById('destination');
-            const destinationTypeInput = document.getElementById('destination_type');
-
-            // Initialisation des champs cachés au chargement
-            updateHiddenField(sourceSelect, sourceTypeInput);
-            updateHiddenField(destinationSelect, destinationTypeInput);
-
-            // Mise à jour des champs cachés au changement
-            sourceSelect.addEventListener('change', () => updateHiddenField(sourceSelect, sourceTypeInput));
-            destinationSelect.addEventListener('change', () => updateHiddenField(destinationSelect,
-                destinationTypeInput));
-        });
-    </script>
-@endsection

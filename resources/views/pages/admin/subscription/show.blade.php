@@ -7,19 +7,6 @@
         <h1 class="text-2xl font-bold">Details de l'abonnement</h1>
     </div>
 
-    <!-- Subscription Details not table use these attributes
-                        'userId',
-                        'planId',
-                        'period',
-                        'startDate',
-                        'endDate',
-                        'amount',
-                        'paymentStatus',
-                        'status',
-                        'sessionId',
-                        'cardCount',
-                        'pockectCount',
-                        'transactionCount'-->
     <div class="overflow-x-auto rounded-lg bg-white p-2 shadow-md">
         <div class="flex flex-col">
             <div class="flex flex-row justify-between">

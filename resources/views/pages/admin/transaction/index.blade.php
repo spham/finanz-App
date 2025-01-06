@@ -6,10 +6,7 @@
         <h1 class="text-2xl font-bold">Gestion des transaction</h1>
     </div>
 
-    <!-- Subscription Table -->
     <div class="overflow-x-auto rounded-lg bg-white p-2 shadow-md">
-
-        {{-- table --}}
         <table class="min-w-full bg-white">
             <thead>
                 <tr>
