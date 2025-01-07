@@ -25,6 +25,11 @@ return new class extends Migration {
             $table->string('paymentStatus')->default(Subscription::PAYMENT_STATUS_NO_PAYMENT_REQUIRED);
             $table->string('status')->default(Subscription::STATUS_ACTIVE);
             $table->string('sessionId')->nullable();
+            // Things to add 
+            $table->integer('cardCount')->default(0);
+            $table->integer('pockectCount')->default(0);
+            $table->integer('transactionCount')->default(0);
+            //end
             $table->timestamps();
         });
     }

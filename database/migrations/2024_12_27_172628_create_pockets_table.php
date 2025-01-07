@@ -19,6 +19,9 @@ return new class extends Migration {
             $table->float('progression')->default(0);
             $table->unsignedBigInteger('userId');
             $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
+            // Things to add 
+            $table->boolean('isBlocked')->default(false);
+            //end
             $table->timestamps();
         });
     }
