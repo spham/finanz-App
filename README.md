@@ -1,3 +1,38 @@
+### Configuration vscode
+
+```json
+{
+    "editor.wordWrap": "on",
+    "editor.guides.bracketPairs": "active",
+    "php.inlayHints.parameters.enabled": true,
+     "editor.formatOnPaste": true,
+
+
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+     "php.format.rules.arrayInitializersAlignKeyValuePairs": false,
+
+    "[php]": {
+        "editor.defaultFormatter": "DEVSENSE.phptools-vscode"
+      },
+
+    //laravel blade config
+      "emmet.triggerExpansionOnTab": true, // enable tab to expanse emmet tags
+      "blade.format.enable": true,
+      "[blade]": {
+        "editor.autoClosingBrackets": "always",
+        "editor.defaultFormatter": "shufo.vscode-blade-formatter"
+      },
+      "bladeFormatter.format.indentInnerHtml": true,
+      "bladeFormatter.format.sortTailwindcssClasses": true,
+      "editor.formatOnSave": true
+
+      "dotenv.enableAutocloaking": false,
+}
+```
+
 ### 1 - Code Pour la page d'acceuil
 
 ```html
