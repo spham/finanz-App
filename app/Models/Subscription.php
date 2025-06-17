@@ -7,11 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Subscription extends Model
 {
     const PAYMENT_STATUS_NO_PAYMENT_REQUIRED = 'GRATUIT';
+
     const PAYMENT_STATUS_PAID = 'PAYE';
+
     const PAYMENT_STATUS_UNPAID = 'NON PAYE';
 
     const STATUS_ACTIVE = 'ACTIF';
+
     const STATUS_DISABLED = 'INACTIF';
+
     const STATUS_PENDING = 'EN ATTENTE';
 
     protected $fillable = [
@@ -26,7 +30,7 @@ class Subscription extends Model
         'sessionId',
         'cardCount',
         'pockectCount',
-        'transactionCount'
+        'transactionCount',
     ];
 
     public function subscriber()
@@ -61,5 +65,4 @@ class Subscription extends Model
     {
         return Subscription::where('status', Subscription::STATUS_ACTIVE)->count();
     }
-
 }

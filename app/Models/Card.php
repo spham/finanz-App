@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Card extends Model
 {
     public const CARD_TYPE_VISA = 'VISA';
+
     public const CARD_TYPE_MASTERCARD = 'MASTERCARD';
+
     public const CARD_TYPE_AMEX = 'American Express';
+
     public const CARD_TYPE_UNIONPAY = 'UnionPay';
 
     protected $fillable = [
@@ -18,7 +21,7 @@ class Card extends Model
         'cvv',
         'expiry_date',
         'balance',
-        'userId'
+        'userId',
     ];
 
     // protected $casts = [
@@ -36,7 +39,7 @@ class Card extends Model
             self::CARD_TYPE_VISA,
             self::CARD_TYPE_MASTERCARD,
             self::CARD_TYPE_AMEX,
-            self::CARD_TYPE_UNIONPAY
+            self::CARD_TYPE_UNIONPAY,
         ];
     }
 
@@ -48,5 +51,4 @@ class Card extends Model
             $card->balance = rand(0, 999999);
         });
     }
-
 }

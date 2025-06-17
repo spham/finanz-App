@@ -34,7 +34,7 @@ class CheckoutController extends Controller
 
         try {
             $checkoutSession = $this->stripeClient->checkout->sessions->create([
-                'payment_method_types' => ['card'],// to add
+                'payment_method_types' => ['card'], // to add
                 'customer_email' => $user->email, // to add
                 'line_items' => [
                     [
@@ -46,10 +46,10 @@ class CheckoutController extends Controller
                             'unit_amount' => $totalAmount,
                         ],
                         'quantity' => 1,
-                    ]
+                    ],
                 ],
                 'mode' => 'payment',
-                'success_url' => route('plan.checkout.succes') . '?session_id={CHECKOUT_SESSION_ID}',
+                'success_url' => route('plan.checkout.succes').'?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('plan.checkout.cancel'),
             ]);
 
@@ -62,12 +62,13 @@ class CheckoutController extends Controller
                 'amount' => ($totalAmount / 100),
                 'paymentStatus' => Subscription::STATUS_PENDING,
                 'status' => Subscription::STATUS_PENDING,
-                'sessionId' => $checkoutSession->id
+                'sessionId' => $checkoutSession->id,
             ]);
 
         } catch (Throwable $e) {
-            Log::error('Stripe Error: ' . $e->getMessage());
-            return redirect('/')->with('error', 'Une erreure est survenu ' . $e->getMessage());
+            Log::error('Stripe Error: '.$e->getMessage());
+
+            return redirect('/')->with('error', 'Une erreure est survenu '.$e->getMessage());
         }
 
         return redirect($checkoutSession->url);
@@ -99,9 +100,10 @@ class CheckoutController extends Controller
 
             $subscription->update([
                 'paymentStatus' => Subscription::PAYMENT_STATUS_PAID,
-                'status' => Subscription::STATUS_ACTIVE
+                'status' => Subscription::STATUS_ACTIVE,
             ]);
         }
+
         return view('pages.checkout.success', ['status' => $checkoutSession->payment_status]);
     }
 

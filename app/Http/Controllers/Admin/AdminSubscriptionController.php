@@ -5,21 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Plan;
 use App\Models\Subscription;
-use Illuminate\Http\Request;
 
 class AdminSubscriptionController extends Controller
 {
     public function index()
     {
         return view('pages.admin.subscription.index', [
-            'subscriptions' => Subscription::orderByDesc('created_at')->get()
+            'subscriptions' => Subscription::orderByDesc('created_at')->get(),
         ]);
     }
 
     public function show(Subscription $subscription)
     {
         return view('pages.admin.subscription.show', [
-            'subscription' => $subscription
+            'subscription' => $subscription,
         ]);
     }
 
@@ -50,7 +49,7 @@ class AdminSubscriptionController extends Controller
                     'endDate' => now()->addYear(),
                     'amount' => 0,
                     'paymentStatus' => Subscription::PAYMENT_STATUS_NO_PAYMENT_REQUIRED,
-                    'status' => Subscription::STATUS_ACTIVE
+                    'status' => Subscription::STATUS_ACTIVE,
                 ]);
             }
         }

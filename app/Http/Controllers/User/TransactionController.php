@@ -18,6 +18,7 @@ class TransactionController extends Controller
     {
         $this->user = Auth::user();
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -27,7 +28,7 @@ class TransactionController extends Controller
 
         return view('pages.users.transaction.index', [
             'transactions' => $this->user->transactions()->get(),
-            'remainingTransactions' => $activeSubscription->plan->maxTransaction - $this->user->transactions()->count()
+            'remainingTransactions' => $activeSubscription->plan->maxTransaction - $this->user->transactions()->count(),
         ]);
     }
 
@@ -40,10 +41,9 @@ class TransactionController extends Controller
             'types' => Transaction::getTypes(),
             'cards' => $this->user->cards()->where('balance', '>', 0)->get(),
             'sourcePockets' => $this->user->pockets()->where('isBlocked', '!=', 1)->where('balance', '>', 0)->get(),
-            'destPockets' => $this->user->pockets()->get()
+            'destPockets' => $this->user->pockets()->get(),
         ]);
     }
-
 
     public function store(StoreTransactionRequest $request)
     {
@@ -125,7 +125,7 @@ class TransactionController extends Controller
      */
     private function getEntity(?string $type, ?int $id): ?object
     {
-        if (!$type || !$id) {
+        if (! $type || ! $id) {
             return null;
         }
 
@@ -135,8 +135,6 @@ class TransactionController extends Controller
             default => throw new \InvalidArgumentException("Type d'entité non valide : $type"),
         };
     }
-
-
 
     /**
      * Display the specified resource.
@@ -156,7 +154,7 @@ class TransactionController extends Controller
             'cards' => $this->user->cards()->where('balance', '>', 0)->get(),
             'sourcePockets' => $this->user->pockets()->where('isBlocked', '!=', '1')->where('balance', '>', 0)->get(),
             'destPockets' => $this->user->pockets()->get(),
-            'transaction' => $transaction
+            'transaction' => $transaction,
         ]);
     }
 

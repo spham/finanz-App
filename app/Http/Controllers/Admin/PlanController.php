@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
 use App\Http\Requests\Plan\StorePlanRequest;
 use App\Http\Requests\Plan\UpdatePlanRequest;
 use App\Models\Plan;
@@ -16,7 +15,7 @@ class PlanController extends Controller
     public function index()
     {
         return view('pages.admin.plan.index', [
-            'plans' => Plan::all()
+            'plans' => Plan::all(),
         ]);
     }
 
@@ -26,7 +25,7 @@ class PlanController extends Controller
     public function create()
     {
         return view('pages.admin.plan.edit', [
-            'planDurations' => Plan::getDurationValues()
+            'planDurations' => Plan::getDurationValues(),
         ]);
     }
 
@@ -35,7 +34,7 @@ class PlanController extends Controller
      */
     public function store(StorePlanRequest $request)
     {
-        $plan = new Plan();
+        $plan = new Plan;
 
         try {
             $plan->fill($request->validated());
@@ -45,7 +44,7 @@ class PlanController extends Controller
             return to_route('plan.index')->with('success', 'Plan enregistre avec succes');
 
         } catch (\Throwable $th) {
-            return back()->with('error', 'Echec d\'enregistrement de plan. ' . $th->getMessage());
+            return back()->with('error', 'Echec d\'enregistrement de plan. '.$th->getMessage());
         }
 
     }
@@ -65,7 +64,7 @@ class PlanController extends Controller
     {
         return view('pages.admin.plan.edit', [
             'plan' => $plan,
-            'planDurations' => Plan::getDurationValues()
+            'planDurations' => Plan::getDurationValues(),
         ]);
     }
 

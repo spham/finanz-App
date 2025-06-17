@@ -59,7 +59,6 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 });
 
-
 // Route to redirect to Google's OAuth page
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('auth.google.redirect');
 

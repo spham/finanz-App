@@ -35,7 +35,7 @@ class ProfileController extends Controller
 
         $image = $request->image;
 
-        if ($image != null && !$image->getError()) {
+        if ($image != null && ! $image->getError()) {
             if ($request->user()->image) {
                 Storage::disk('public')->delete($request->user()->image);
             }

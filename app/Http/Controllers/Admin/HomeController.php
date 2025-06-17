@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Subscription;
 use App\Models\Transaction;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {

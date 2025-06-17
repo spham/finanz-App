@@ -24,7 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'image', //Si ca casse c'est ca
-        'role'
+        'role',
     ];
 
     /**
@@ -148,7 +148,6 @@ class User extends Authenticatable
             ->sum('amount');
     }
 
-
     //calculate monthly expenses amount for the current year
     public function monthlyExpenses()
     {
@@ -157,7 +156,7 @@ class User extends Authenticatable
         foreach ($this->transactions as $transaction) {
             if ($transaction->type == Transaction::TYPE_TRANSACTION_EXPENSE && $transaction->created_at->format('Y') == now()->format('Y')) {
                 $month = $transaction->created_at->format('Y-m');
-                if (!isset($monthlyExpenses[$month])) {
+                if (! isset($monthlyExpenses[$month])) {
                     $monthlyExpenses[$month] = 0;
                 }
                 $monthlyExpenses[$month] += $transaction->amount;
@@ -225,7 +224,6 @@ class User extends Authenticatable
             ->pluck('total', 'description')->toArray();
     }
 
-
     //calculate incomes amount by month
     public function monthlyIncomes()
     {
@@ -234,7 +232,7 @@ class User extends Authenticatable
         foreach ($this->transactions as $transaction) {
             if ($transaction->type == Transaction::TYPE_TRANSACTION_INCOME && $transaction->created_at->format('Y') == now()->format('Y')) {
                 $month = $transaction->created_at->format('Y-m');
-                if (!isset($monthlyIncomes[$month])) {
+                if (! isset($monthlyIncomes[$month])) {
                     $monthlyIncomes[$month] = 0;
                 }
                 $monthlyIncomes[$month] += $transaction->amount;
@@ -255,5 +253,4 @@ class User extends Authenticatable
 
         return $pocketsProgress;
     }
-
 }

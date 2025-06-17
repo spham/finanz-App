@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     const TYPE_TRANSACTION_INCOME = 'Revenu';
+
     const TYPE_TRANSACTION_EXPENSE = 'Depense';
+
     const TYPE_TRANSACTION_TRANSFER = 'Transfert';
 
     protected $fillable = [
@@ -16,7 +18,7 @@ class Transaction extends Model
         'source_id',
         'destination_id',
         'description',
-        'userId'
+        'userId',
     ];
 
     public static function getTypes()

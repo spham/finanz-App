@@ -25,7 +25,7 @@ class UpdatePocketRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'balanceGoal' => ['required', 'numeric', 'min:0'], // Le goal doit être >= balance
             'dueDate' => ['nullable', 'date', 'after:today'], // Une date optionnelle, mais si fournie, elle doit être future
-            'isBlocked' => ['nullable', 'boolean']
+            'isBlocked' => ['nullable', 'boolean'],
             //'progression' => ['nullable', 'numeric', 'between:0,100'], // Facultatif, entre 0 et 100%
         ];
     }

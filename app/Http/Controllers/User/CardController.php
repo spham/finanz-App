@@ -17,6 +17,7 @@ class CardController extends Controller
     {
         $this->user = Auth::user();
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -42,7 +43,7 @@ class CardController extends Controller
         // Retourne à la vue avec les données nécessaires
         return view('pages.users.cards.index', [
             'cards' => $this->user->cards()->get(),
-            'remainingCards' => $remainingCards
+            'remainingCards' => $remainingCards,
         ]);
     }
 
@@ -55,7 +56,7 @@ class CardController extends Controller
             ->where('status', Subscription::STATUS_ACTIVE)
             ->first();
 
-        if (!$activeSubscription->canAddMoreCards()) {
+        if (! $activeSubscription->canAddMoreCards()) {
             return back()->with('error', 'Impossible d\'ajouter une carte. Limite atteinte.');
         }
 

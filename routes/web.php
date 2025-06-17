@@ -30,7 +30,6 @@ Route::get('/admin/home', [HomeController::class, 'index'])->name('admin.home')-
 Route::resource('/admin/plan', PlanController::class)->middleware(['auth', 'verified']);
 Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.user')->middleware(['auth', 'verified']);
 
-
 Route::get('/admin/transaction', [AdminTransactionController::class, 'index'])->name('admin.transaction')->middleware(['auth', 'verified']);
 Route::get('/admin/subscription', [AdminSubscriptionController::class, 'index'])->name('admin.subscription')->middleware(['auth', 'verified']);
 
@@ -41,7 +40,6 @@ Route::get('/admin/subscription/disable/{subscription}', [AdminSubscriptionContr
 
 //enable subscription
 Route::get('/admin/subscription/enable/{subscription}', [AdminSubscriptionController::class, 'enable'])->name('admin.subscription.enable')->middleware(['auth', 'verified']);
-
 
 // Users Routes
 Route::get('/dashboard', [DasboardController::class, 'index'])->name('users.home')->middleware(['auth', 'verified']);
@@ -59,4 +57,4 @@ Route::get('/checkout/plan/{plan}', [CheckoutController::class, 'checkout'])->na
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('plan.checkout.succes')->middleware(['auth', 'verified']);
 Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('plan.checkout.cancel')->middleware(['auth', 'verified']);
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

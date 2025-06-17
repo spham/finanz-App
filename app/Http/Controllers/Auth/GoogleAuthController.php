@@ -7,10 +7,9 @@ use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use Throwable;
-use Illuminate\Support\Str;
-
 
 class GoogleAuthController extends Controller
 {
@@ -49,7 +48,7 @@ class GoogleAuthController extends Controller
                     'lastName' => $user->user['family_name'],
                     // 'image' => $user->$user->getAvatar(),
                     'password' => bcrypt(Str::random(8)),
-                    'email_verified_at' => now()
+                    'email_verified_at' => now(),
                 ]
             );
 

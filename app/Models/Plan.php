@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Plan extends Model
 {
     public const MONTHY_DURATION = 'Monthly';
+
     public const YEARLY_DURATION = 'Yearly';
+
     public const FREE_ACCESS = 'FREE';
 
     protected $fillable = [
@@ -16,7 +18,7 @@ class Plan extends Model
         'duration',
         'maxCards',
         'maxPocket',
-        'maxTransaction'
+        'maxTransaction',
     ];
 
     public static function getDurationValues()
@@ -24,7 +26,7 @@ class Plan extends Model
         return [
             self::YEARLY_DURATION => 'ANNUEL',
             self::MONTHY_DURATION => 'MENSUEL',
-            self::FREE_ACCESS => 'GRATUIT'
+            self::FREE_ACCESS => 'GRATUIT',
         ];
     }
 }

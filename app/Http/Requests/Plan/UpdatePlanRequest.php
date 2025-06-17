@@ -27,7 +27,7 @@ class UpdatePlanRequest extends FormRequest
             'duration' => ['required', 'string'],
             'maxCards' => ['required', 'numeric'],
             'maxPocket' => ['required', 'numeric'],
-            'maxTransaction' => ['required', 'numeric']
+            'maxTransaction' => ['required', 'numeric'],
         ];
     }
 }

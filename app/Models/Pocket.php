@@ -13,7 +13,7 @@ class Pocket extends Model
         'balance',
         'progression',
         'isBlocked',
-        'userId'
+        'userId',
     ];
 
     public function owner()

@@ -27,45 +27,45 @@ class UpdateTransactionRequest extends FormRequest
         return [
             'type' => [
                 'required',
-                'in:' . implode(',', [
+                'in:'.implode(',', [
                     Transaction::TYPE_TRANSACTION_EXPENSE,
                     Transaction::TYPE_TRANSACTION_INCOME,
-                    Transaction::TYPE_TRANSACTION_TRANSFER
-                ])
+                    Transaction::TYPE_TRANSACTION_TRANSFER,
+                ]),
             ], // Assure-toi que le type est valide
             'source_id' => [
                 'nullable',
-                'required_if:type,' . Transaction::TYPE_TRANSACTION_EXPENSE,
-                'required_if:type,' . Transaction::TYPE_TRANSACTION_TRANSFER,
+                'required_if:type,'.Transaction::TYPE_TRANSACTION_EXPENSE,
+                'required_if:type,'.Transaction::TYPE_TRANSACTION_TRANSFER,
                 function ($attribute, $value, $fail) {
                     if ($value) {
                         // Vérifie si la source est une carte ou une poche
                         $isCard = Card::find($value);
                         $isPocket = Pocket::find($value);
 
-                        if (!$isCard && !$isPocket) {
+                        if (! $isCard && ! $isPocket) {
                             $fail('La source doit être soit une carte soit une poche valide.');
                         }
                     }
-                }
+                },
             ],
 
             'destination_id' => [
                 'nullable',
                 'different:source_id',
-                'required_if:type,' . Transaction::TYPE_TRANSACTION_INCOME,
-                'required_if:type,' . Transaction::TYPE_TRANSACTION_TRANSFER,
+                'required_if:type,'.Transaction::TYPE_TRANSACTION_INCOME,
+                'required_if:type,'.Transaction::TYPE_TRANSACTION_TRANSFER,
                 function ($attribute, $value, $fail) {
                     if ($value) {
                         // Vérifie si la source est une carte ou une poche
                         $isCard = Card::find($value);
                         $isPocket = Pocket::find($value);
 
-                        if (!$isCard && !$isPocket) {
+                        if (! $isCard && ! $isPocket) {
                             $fail('La source doit être soit une carte soit une poche valide.');
                         }
                     }
-                }
+                },
             ],
             'description' => ['nullable', 'string', 'max:255'],
             'amount' => ['required', 'numeric', 'min:10.00'], // Vérifie que le montant est valide

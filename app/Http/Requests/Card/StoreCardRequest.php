@@ -26,7 +26,7 @@ class StoreCardRequest extends FormRequest
             'type' => ['required', 'string', 'max:50'],
             'cardNumber' => ['required', 'numeric', 'digits_between:13,19', 'unique:cards,cardNumber'],
             'cvv' => ['required', 'numeric', 'digits:3'],
-            'expiry_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today']
+            'expiry_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
         ];
     }
 

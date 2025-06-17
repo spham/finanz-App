@@ -29,7 +29,7 @@ class UpdateCardRequest extends FormRequest
             'type' => ['required', 'string', 'max:50'],
             'cardNumber' => ['required', 'numeric', 'digits_between:13,19', Rule::unique('cards', 'cardNumber')->ignore($cardId)],
             'cvv' => ['required', 'numeric', 'digits:3'],
-            'expiry_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today']
+            'expiry_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today'],
         ];
     }
 

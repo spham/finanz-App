@@ -16,6 +16,7 @@ class PocketController extends Controller
     {
         $this->user = Auth::user();
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -31,7 +32,7 @@ class PocketController extends Controller
      */
     public function create()
     {
-        if (!$this->user->activeSubscription()?->canAddMorePockets()) {
+        if (! $this->user->activeSubscription()?->canAddMorePockets()) {
             return back()->with('error', 'Impossible d\'ajouter une poche. Limite atteinte.');
         }
 
