@@ -15,7 +15,7 @@
                 </div>
             </div>
         </a>
-        @if ($currentUser->role != 'admin')
+        @if ($currentUser->role != 'admin' && $activeSubscription)
             <span class="rounded-lg bg-yellow-800 p-2 text-sm text-white">{{ $activeSubscription->plan->name }}</span>
         @endif
     </div>

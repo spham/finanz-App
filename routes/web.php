@@ -42,7 +42,7 @@ Route::get('/admin/subscription/disable/{subscription}', [AdminSubscriptionContr
 Route::get('/admin/subscription/enable/{subscription}', [AdminSubscriptionController::class, 'enable'])->name('admin.subscription.enable')->middleware(['auth', 'verified']);
 
 // Users Routes
-Route::get('/dashboard', [DasboardController::class, 'index'])->name('users.home')->middleware(['auth', 'verified']);
+Route::get('/dashboard', [DasboardController::class, 'index'])->name('dashboard')->middleware(['auth', 'verified']);
 Route::get('/subscription', [SubscriptionController::class, 'subscriptions'])->name('users.subscriptions')->middleware(['auth', 'verified']);
 Route::resource('/card', CardController::class)->middleware(['auth', 'verified']);
 

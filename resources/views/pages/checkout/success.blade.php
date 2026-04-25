@@ -30,7 +30,7 @@
 
                 <!-- Back to Home Button -->
                 <div class="mt-12">
-                    <a href="{{ route('users.home') }}"
+                    <a href="{{ route('dashboard') }}"
                         class="inline-block rounded-lg bg-green-600 px-8 py-4 text-lg font-semibold text-white transition-colors duration-200 hover:bg-green-700">
                         Returner au tableau de bord
                     </a>
