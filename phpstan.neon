@@ -1,0 +1,18 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/mrpunyapal/peststan/extension.neon
+
+parameters:
+    paths:
+        - app/
+        - config/
+        - database/
+        - routes/
+        - tests/
+
+    level: 5
+
+    peststan:
+        testCaseClass: Tests\TestCase
+        pestConfigFiles:
+            - tests/Pest.php

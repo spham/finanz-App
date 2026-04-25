@@ -3,7 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+/**
+ * @property string $type
+ * @property float $amount
+ * @property string|null $source_type
+ * @property string|null $destination_type
+ * @property-read Card|Pocket|null $source
+ * @property-read Card|Pocket|null $destination
+ */
 class Transaction extends Model
 {
     const TYPE_TRANSACTION_INCOME = 'Revenu';
@@ -30,17 +40,20 @@ class Transaction extends Model
         ];
     }
 
-    public function user()
+    /** @return BelongsTo<User, $this> */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'userId', 'id');
     }
 
-    public function source()
+    /** @return MorphTo<Model, $this> */
+    public function source(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function destination()
+    /** @return MorphTo<Model, $this> */
+    public function destination(): MorphTo
     {
         return $this->morphTo();
     }

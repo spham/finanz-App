@@ -27,26 +27,25 @@ class GoogleAuthController extends Controller
     public function callback()
     {
         try {
-            $user = Socialite::driver('google')->user();
+            /** @var \Laravel\Socialite\Two\User $googleUser */
+            $googleUser = Socialite::driver('google')->user();
         } catch (Throwable $e) {
             return redirect('/')->with('error', 'Echec de connexion avec google');
         }
 
         //Check if the user already exists in the DB
-        $existingUser = User::where('email', $user->email)->first();
+        $existingUser = User::where('email', $googleUser->getEmail())->first();
 
         if ($existingUser) {
             // Get that user logged
             Auth::login($existingUser);
         } else {
-            // dd($user->user);
             // Otherwise create a new user
             $newUser = User::updateOrCreate(
-                ['email' => $user->email],
+                ['email' => $googleUser->getEmail()],
                 [
-                    'firstName' => $user->user['given_name'],
-                    'lastName' => $user->user['family_name'],
-                    // 'image' => $user->$user->getAvatar(),
+                    'firstName' => $googleUser->user['given_name'],
+                    'lastName' => $googleUser->user['family_name'],
                     'password' => bcrypt(Str::random(8)),
                     'email_verified_at' => now(),
                 ]

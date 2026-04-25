@@ -3,7 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $cardCount
+ * @property int $pockectCount
+ * @property int $transactionCount
+ * @property-read User $subscriber
+ * @property-read Plan $plan
+ */
 class Subscription extends Model
 {
     const PAYMENT_STATUS_NO_PAYMENT_REQUIRED = 'GRATUIT';
@@ -33,12 +41,14 @@ class Subscription extends Model
         'transactionCount',
     ];
 
-    public function subscriber()
+    /** @return BelongsTo<User, $this> */
+    public function subscriber(): BelongsTo
     {
         return $this->belongsTo(User::class, 'userId', 'id');
     }
 
-    public function plan()
+    /** @return BelongsTo<Plan, $this> */
+    public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class, 'planId', 'id');
     }

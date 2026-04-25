@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
-            $table->string('name', '255')->unique();
+            $table->string('name', 255)->unique();
             $table->decimal('price', 4, 2)->default(0.00);
             $table->string('duration')->default(Plan::FREE_ACCESS);
 

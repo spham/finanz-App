@@ -14,7 +14,7 @@ class CheckoutController extends Controller
 {
     public function __construct(private StripeClient $stripeClient)
     {
-        $this->stripeClient = new StripeClient(env('STRIPE_SECRET'));
+        $this->stripeClient = new StripeClient(config('services.stripe.secret'));
     }
 
     public function checkout(Plan $plan, Request $request)

@@ -2,13 +2,24 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 
-class User extends Authenticatable
+/**
+ * @property string $firstName
+ * @property string $lastName
+ * @property string $email
+ * @property string|null $image
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Subscription> $subscriptions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Card> $cards
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Pocket> $pockets
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Transaction> $transactions
+ */
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -61,29 +72,33 @@ class User extends Authenticatable
     //     return $this->image ? Storage::url($this->image) : asset('images/default-user.png');
     // }
 
-    public function subscriptions()
+    /** @return HasMany<Subscription, $this> */
+    public function subscriptions(): HasMany
     {
         return $this->hasMany(Subscription::class, 'userId', 'id');
     }
 
-    public function activeSubscription()
+    public function activeSubscription(): ?Subscription
     {
         return $this->subscriptions()
             ->where('status', Subscription::STATUS_ACTIVE)
             ->first();
     }
 
-    public function cards()
+    /** @return HasMany<Card, $this> */
+    public function cards(): HasMany
     {
         return $this->hasMany(Card::class, 'userId', 'id');
     }
 
-    public function pockets()
+    /** @return HasMany<Pocket, $this> */
+    public function pockets(): HasMany
     {
         return $this->hasMany(Pocket::class, 'userId', 'id');
     }
 
-    public function transactions()
+    /** @return HasMany<Transaction, $this> */
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class, 'userId', 'id');
     }
